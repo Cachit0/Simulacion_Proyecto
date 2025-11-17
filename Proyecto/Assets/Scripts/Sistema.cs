@@ -1,4 +1,4 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using System.Collections.Generic;
 
 public class Sistema : MonoBehaviour
@@ -17,15 +17,15 @@ public class Sistema : MonoBehaviour
     public float contenedorAlto = 9f;
     public Vector3 contenedorPosicion = Vector3.zero;
 
-    [Header("FÌsica")]
+    [Header("F√≠sica")]
     public float gravedad = 9.81f;
     public float coefRestitucion = 0.4f;
 
     [Header("Control")]
     public KeyCode teclaSpawn = KeyCode.Mouse0;
 
-    [Header("FusiÛn")]
-    public float tiempoEsperaFusion = 0.1f; // Tiempo mÌnimo antes de poder fusionar
+    [Header("Fusi√≥n")]
+    public float tiempoEsperaFusion = 0.1f; // Tiempo m√≠nimo antes de poder fusionar
 
     private List<Esfera> esferas = new List<Esfera>();
     private Esfera esferaPreview;
@@ -74,7 +74,7 @@ public class Sistema : MonoBehaviour
     {
         if (prefabsBolas.Count == 0)
         {
-            Debug.LogError("°Asigna al menos un prefab de bola en la lista!");
+            Debug.LogError("¬°Asigna al menos un prefab de bola en la lista!");
             return;
         }
         CrearEsferaPreview();
@@ -104,7 +104,7 @@ public class Sistema : MonoBehaviour
     {
         float dt = Time.fixedDeltaTime;
 
-        // Aplicar fÌsica
+        // Aplicar f√≠sica
         foreach (var esfera in esferas)
         {
             if (!esfera.enJuego) continue;
@@ -192,7 +192,7 @@ public class Sistema : MonoBehaviour
             }
         }
 
-        Debug.LogWarning($"No se encontrÛ prefab para nivel {nivel}");
+        Debug.LogWarning($"No se encontr√≥ prefab para nivel {nivel}");
         return null;
     }
 
@@ -269,21 +269,21 @@ public class Sistema : MonoBehaviour
             // VERIFICAR SI SON DEL MISMO NIVEL PARA FUSIONAR
             if (e1.nivel == e2.nivel && !e1.marcadaParaFusion && !e2.marcadaParaFusion)
             {
-                // Verificar que hayan pasado suficiente tiempo desde su creaciÛn
+                // Verificar que hayan pasado suficiente tiempo desde su creaci√≥n
                 float tiempoActual = Time.time;
                 if (tiempoActual - e1.tiempoCreacion > tiempoEsperaFusion &&
                     tiempoActual - e2.tiempoCreacion > tiempoEsperaFusion)
                 {
-                    // Verificar que no sea el nivel m·ximo
+                    // Verificar que no sea el nivel m√°ximo
                     if (e1.nivel < prefabsBolas.Count)
                     {
-                        Debug.Log($"°FUSI”N detectada! Nivel {e1.nivel} -> {e1.nivel + 1}");
+                        Debug.Log($"¬°FUSI√ìN detectada! Nivel {e1.nivel} -> {e1.nivel + 1}");
 
-                        // Marcar para fusiÛn
+                        // Marcar para fusi√≥n
                         e1.marcadaParaFusion = true;
                         e2.marcadaParaFusion = true;
 
-                        // Calcular posiciÛn promedio
+                        // Calcular posici√≥n promedio
                         Vector3 posFusion = (pos1 + pos2) / 2f;
                         posFusion.z = 0f;
 
@@ -294,12 +294,12 @@ public class Sistema : MonoBehaviour
                         esferasAEliminar.Add(e1);
                         esferasAEliminar.Add(e2);
 
-                        return; // No procesar fÌsica si hay fusiÛn
+                        return; // No procesar f√≠sica si hay fusi√≥n
                     }
                 }
             }
 
-            // Si no hay fusiÛn, aplicar fÌsica de colisiÛn normal
+            // Si no hay fusi√≥n, aplicar f√≠sica de colisi√≥n normal
             Vector2 normal = (pos2 - pos1).normalized;
             float superposicion = distanciaMin - distancia;
             Vector3 correccion = normal * (superposicion / 2f + 0.001f);
@@ -362,6 +362,11 @@ public class Sistema : MonoBehaviour
         esferas.Add(nuevaEsferaObj);
 
         Debug.Log($"Nueva esfera creada - Nivel: {nivel}, Radio: {radio}");
+        // ‚≠ê NUEVA L√çNEA: Notificar al GameManager
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.RegistrarFusion(nivel);
+        }
     }
 
     void ColisionConContenedor(Esfera esfera)
