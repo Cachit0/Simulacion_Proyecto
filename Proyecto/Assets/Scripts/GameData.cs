@@ -14,9 +14,9 @@ public static class GameData
     // Configuración del nivel (se establece al seleccionar nivel)
     public static ConfiguracionNivel configuracionActual;
 
-    // ⭐ NUEVO: Rastreo de progreso de todos los niveles
+    // Rastreo de progreso de todos los niveles
     public static bool[] nivelesCompletados = new bool[3]; // [nivel1, nivel2, nivel3]
-    public static bool[] nivelesIntentados = new bool[3];   // ⭐ NUEVO: Para saber si ya intentó el nivel
+    public static bool[] nivelesIntentados = new bool[3];   // Para saber si ya intentó el nivel
 
     // Método para verificar si completó todos los niveles
     public static bool TodosLosNivelesCompletados()
@@ -24,7 +24,7 @@ public static class GameData
         return nivelesCompletados[0] && nivelesCompletados[1] && nivelesCompletados[2];
     }
 
-    // ⭐ NUEVO: Verificar si algún nivel fue fallado
+    // Verificar si algún nivel fue fallado
     public static bool AlgunNivelFallado()
     {
         for (int i = 0; i < 3; i++)
@@ -37,16 +37,16 @@ public static class GameData
         return false;
     }
 
-    // ⭐ NUEVO: Verificar si un nivel está desbloqueado
+    // Verificar si un nivel está desbloqueado
     public static bool NivelDesbloqueado(int nivel)
     {
         if (nivel == 1) return true; // Nivel 1 siempre desbloqueado
-        if (nivel == 2) return nivelesIntentados[0]; // ⭐ Nivel 2 si INTENTÓ nivel 1
-        if (nivel == 3) return nivelesIntentados[0] && nivelesIntentados[1]; // ⭐ Nivel 3 si INTENTÓ 1 y 2
+        if (nivel == 2) return nivelesIntentados[0]; // Nivel 2 si INTENTÓ nivel 1
+        if (nivel == 3) return nivelesIntentados[0] && nivelesIntentados[1]; // Nivel 3 si INTENTÓ 1 y 2
         return false;
     }
 
-    // ⭐ NUEVO: Verificar si ya intentó los 3 niveles
+    // Verificar si ya intentó los 3 niveles
     public static bool IntentóTodosLosNiveles()
     {
         return nivelesIntentados[0] && nivelesIntentados[1] && nivelesIntentados[2];
@@ -61,9 +61,13 @@ public static class GameData
         nivelesIntentados[0] = false;
         nivelesIntentados[1] = false;
         nivelesIntentados[2] = false;
+        nivelActual = 1;
+        tipoDialogo = TipoDialogo.Intro;
+        gano = false;
     }
 }
 
+// Enums y clases existentes
 public enum TipoDialogo
 {
     Intro,

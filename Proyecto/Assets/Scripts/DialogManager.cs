@@ -1,109 +1,216 @@
 ﻿using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class DialogueManager : MonoBehaviour
 {
-    [Header("UI")]
-    public TextMeshProUGUI dialogueText;
-    public TextMeshProUGUI nombrePersonaje; // Opcional
-    public GameObject panelDialogo;
-    public GameObject indicadorContinuar; // ⭐ NUEVO: El objeto con "Click para continuar"
+    [Header("🎨 Referencias UI")]
+    public TextMeshProUGUI textoDialogo;
+    public TextMeshProUGUI textoNombrePersonaje;
+    public GameObject indicadorContinuar;
 
-    [Header("Efectos Visuales (Opcional)")]
-    public bool usarEfectoEscritura = true;
+    // 🆕 Tres posiciones para personajes
+    public Image imagenPersonajeIzquierda;
+    public Image imagenPersonajeCentro;
+    public Image imagenPersonajeDerecha;
+    public Image imagenFondo;
+
+    [Header("⚙️ Configuración")]
+    public bool efectoEscritura = true;
     public float velocidadEscritura = 0.05f;
 
-    [Header("Diálogos Introducción Niveles")]
-    public string[] introNivel1;
-    public string[] introNivel2;
-    public string[] introNivel3;
+    [Header("📖 ESCENAS DE DIÁLOGO - Configura aquí")]
+    [Space(10)]
+    public EscenaDialogo introNivel1;
+    public EscenaDialogo introNivel2;
+    public EscenaDialogo introNivel3;
 
-    [Header("Diálogos Victoria Final")]
-    public string[] victoriaFinal; // ⭐ Cuando completa los 3 niveles
+    [Space(10)]
+    public EscenaDialogo victoriaFinal;
+    public EscenaDialogo derrota;
 
-    [Header("Diálogos Derrota")]
-    public string[] derrota; // ⭐ Cuando falla cualquier nivel
-
-    private string[] dialogosActuales;
+    // Variables internas
+    private LineaDialogo[] dialogosActuales;
     private int indiceActual = 0;
-    private bool mostrandoTexto = false;
+    private bool escribiendo = false;
+    private Coroutine coroutineEscritura;
 
     void Start()
     {
-
         CargarDialogos();
-        MostrarDialogo();
+
+        if (dialogosActuales != null && dialogosActuales.Length > 0)
+        {
+            MostrarDialogo();
+        }
+        else
+        {
+            Debug.LogError("❌ No hay diálogos configurados");
+            Finalizar();
+        }
     }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
-            // Si está mostrando texto con efecto, completarlo instantáneamente
-            SiguienteDialogo();
+            if (escribiendo)
+            {
+                CompletarTexto();
+            }
+            else
+            {
+                Siguiente();
+            }
         }
 
-        // ⭐ Mostrar/ocultar indicador según estado
         if (indicadorContinuar != null)
         {
-            indicadorContinuar.SetActive(!mostrandoTexto);
+            indicadorContinuar.SetActive(!escribiendo);
         }
     }
 
     void CargarDialogos()
     {
-        // Selecciona los diálogos según nivel y tipo
-        if (GameData.tipoDialogo == TipoDialogo.Intro)
+        EscenaDialogo escenaSeleccionada = null;
+
+        switch (GameData.tipoDialogo)
         {
-            // Diálogos de introducción por nivel
-            switch (GameData.nivelActual)
-            {
-                case 1:
-                    dialogosActuales = introNivel1;
-                    break;
-                case 2:
-                    dialogosActuales = introNivel2;
-                    break;
-                case 3:
-                    dialogosActuales = introNivel3;
-                    break;
-                default:
-                    dialogosActuales = new string[] { "..." };
-                    break;
-            }
-        }
-        else if (GameData.tipoDialogo == TipoDialogo.Victoria)
-        {
-            // ⭐ Victoria FINAL (completó los 3 niveles)
-            dialogosActuales = victoriaFinal;
-        }
-        else if (GameData.tipoDialogo == TipoDialogo.Derrota)
-        {
-            // ⭐ Derrota (falló un nivel)
-            dialogosActuales = derrota;
+            case TipoDialogo.Intro:
+                if (GameData.nivelActual == 1)
+                    escenaSeleccionada = introNivel1;
+                else if (GameData.nivelActual == 2)
+                    escenaSeleccionada = introNivel2;
+                else if (GameData.nivelActual == 3)
+                    escenaSeleccionada = introNivel3;
+                break;
+
+            case TipoDialogo.Victoria:
+                escenaSeleccionada = victoriaFinal;
+                break;
+
+            case TipoDialogo.Derrota:
+                escenaSeleccionada = derrota;
+                break;
         }
 
-        // Validación
-        if (dialogosActuales == null || dialogosActuales.Length == 0)
+        if (escenaSeleccionada != null)
         {
-            dialogosActuales = new string[] { "..." };
-            Debug.LogWarning("No hay diálogos configurados para este nivel/tipo");
+            dialogosActuales = escenaSeleccionada.dialogos;
+
+            if (escenaSeleccionada.fondoInicial != null && imagenFondo != null)
+            {
+                imagenFondo.sprite = escenaSeleccionada.fondoInicial;
+            }
+
+            Debug.Log($"✓ Cargada escena: {escenaSeleccionada.nombreEscena}");
+        }
+        else
+        {
+            Debug.LogWarning($"⚠️ No hay escena configurada para Nivel {GameData.nivelActual}, Tipo: {GameData.tipoDialogo}");
         }
     }
 
     void MostrarDialogo()
     {
-        if (indiceActual < dialogosActuales.Length)
-        {
-            string textoActual = dialogosActuales[indiceActual];
-            dialogueText.text = textoActual;
-            mostrandoTexto = false;
+        if (indiceActual >= dialogosActuales.Length) return;
 
+        LineaDialogo lineaActual = dialogosActuales[indiceActual];
+
+        // 🔧 RESETEAR TODAS LAS POSICIONES PRIMERO
+        OcultarTodasLasImagenes();
+
+        // 🔧 CONFIGURAR SEGÚN EL MODO
+        switch (lineaActual.modoPersonajes)
+        {
+            case ModoPersonajes.SinPersonajes:
+                break;
+
+            case ModoPersonajes.UnPersonaje:
+                MostrarPersonajeEnPosicion(
+                    lineaActual.personajePrincipal,
+                    lineaActual.posicionPersonajePrincipal,
+                    lineaActual.principalHabla
+                );
+                break;
+
+            case ModoPersonajes.DosPersonajes:
+                MostrarPersonajeEnPosicion(
+                    lineaActual.personajePrincipal,
+                    lineaActual.posicionPersonajePrincipal,
+                    lineaActual.principalHabla
+                );
+                MostrarPersonajeEnPosicion(
+                    lineaActual.personajeSecundario,
+                    lineaActual.posicionPersonajeSecundario,
+                    lineaActual.secundarioHabla
+                );
+                break;
+        }
+
+        // Cambiar fondo si hay uno nuevo
+        if (imagenFondo != null && lineaActual.imagenFondo != null)
+        {
+            imagenFondo.sprite = lineaActual.imagenFondo;
+        }
+
+        // Efecto de escritura para el DIÁLOGO
+        if (efectoEscritura)
+        {
+            if (coroutineEscritura != null)
+                StopCoroutine(coroutineEscritura);
+
+            coroutineEscritura = StartCoroutine(EfectoEscritura(lineaActual.texto));
+        }
+        else
+        {
+            textoDialogo.text = lineaActual.texto;
+            escribiendo = false;
+        }
+
+        // 🔧 MOSTRAR NOMBRE AL FINAL (como el diálogo)
+        if (textoNombrePersonaje != null)
+        {
+            if (!string.IsNullOrEmpty(lineaActual.nombrePersonaje))
+            {
+                textoNombrePersonaje.text = lineaActual.nombrePersonaje;
+                textoNombrePersonaje.gameObject.SetActive(true);
+            }
+            else
+            {
+                textoNombrePersonaje.gameObject.SetActive(false);
+            }
         }
     }
 
-    void SiguienteDialogo()
+    IEnumerator EfectoEscritura(string textoCompleto)
+    {
+        escribiendo = true;
+        textoDialogo.text = "";
+
+        foreach (char letra in textoCompleto)
+        {
+            textoDialogo.text += letra;
+            yield return new WaitForSeconds(velocidadEscritura);
+        }
+
+        escribiendo = false;
+    }
+
+    void CompletarTexto()
+    {
+        if (coroutineEscritura != null)
+        {
+            StopCoroutine(coroutineEscritura);
+        }
+
+        textoDialogo.text = dialogosActuales[indiceActual].texto;
+        escribiendo = false;
+    }
+
+    void Siguiente()
     {
         indiceActual++;
 
@@ -113,59 +220,72 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            FinalizarDialogos();
+            Finalizar();
         }
     }
 
-    void FinalizarDialogos()
+    void Finalizar()
     {
-        // Decide a dónde ir después
         if (GameData.tipoDialogo == TipoDialogo.Intro)
         {
-            // Termina la intro, va al juego
             SceneManager.LoadScene("Juego");
         }
         else if (GameData.tipoDialogo == TipoDialogo.Victoria)
         {
-            // ⭐ Victoria final → Reinicia progreso y vuelve al menú
             GameData.ReiniciarProgreso();
             SceneManager.LoadScene("Menu");
         }
-        else // Derrota
+        else if (GameData.tipoDialogo == TipoDialogo.Derrota)
         {
-            // ⭐ Derrota final → Reinicia progreso y vuelve al menú
             GameData.ReiniciarProgreso();
             SceneManager.LoadScene("Menu");
         }
     }
+
+    void OcultarTodasLasImagenes()
+    {
+        if (imagenPersonajeIzquierda != null)
+            imagenPersonajeIzquierda.gameObject.SetActive(false);
+
+        if (imagenPersonajeCentro != null)
+            imagenPersonajeCentro.gameObject.SetActive(false);
+
+        if (imagenPersonajeDerecha != null)
+            imagenPersonajeDerecha.gameObject.SetActive(false);
+    }
+
+    //Auxiliares
+
+    void MostrarPersonajeEnPosicion(Sprite sprite, PosicionPersonaje posicion, bool habla)
+    {
+        if (sprite == null) return;
+
+        Image imagenSeleccionada = null;
+
+        // Seleccionar la imagen según la posición
+        switch (posicion)
+        {
+            case PosicionPersonaje.Izquierda:
+                imagenSeleccionada = imagenPersonajeIzquierda;
+                break;
+            case PosicionPersonaje.Centro:
+                imagenSeleccionada = imagenPersonajeCentro;
+                break;
+            case PosicionPersonaje.Derecha:
+                imagenSeleccionada = imagenPersonajeDerecha;
+                break;
+        }
+
+        if (imagenSeleccionada != null)
+        {
+            imagenSeleccionada.sprite = sprite;
+            imagenSeleccionada.gameObject.SetActive(true);
+
+            // Destacar si está hablando
+            Color color = habla
+                ? Color.white
+                : new Color(0.6f, 0.6f, 0.6f, 1f); // Atenuado
+            imagenSeleccionada.color = color;
+        }
+    }
 }
-
-// ⭐ EJEMPLO de cómo configurar los diálogos en el Inspector:
-/*
-INTRO NIVEL 1:
-[0] "¡Buenos días! Soy Esmeralda, la nueva aprendiz de la tienda."
-[1] "Mi primer encargo es preparar pociones de curación."
-[2] "Debo conseguir los ingredientes correctos... ¡Vamos allá!"
-
-INTRO NIVEL 2:
-[0] "Segundo día de trabajo. Hoy el encargo es más complejo."
-[1] "Necesito preparar elixires mágicos más potentes."
-[2] "¡No puedo fallar ahora!"
-
-INTRO NIVEL 3:
-[0] "¡El último encargo! Este es el más importante."
-[1] "Si logro completarlo, podré quedarme en la tienda."
-[2] "¡Todo depende de esto!"
-
-VICTORIA FINAL:
-[0] "¡Lo logré! ¡Completé los tres encargos!"
-[1] "La dueña de la tienda está impresionada."
-[2] "Me ofreció quedarme como asistente permanente."
-[3] "¡Este es el inicio de mi carrera como bruja de tienda!"
-
-DERROTA:
-[0] "Oh no... no pude completar el encargo a tiempo."
-[1] "La dueña de la tienda parece decepcionada."
-[2] "Tendré que intentarlo de nuevo si quiero quedarme aquí."
-[3] "¡No me rendiré!"
-*/
