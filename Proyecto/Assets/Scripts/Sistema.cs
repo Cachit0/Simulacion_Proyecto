@@ -25,7 +25,27 @@ public class Sistema : MonoBehaviour
     public KeyCode teclaSpawn = KeyCode.Mouse0;
 
     [Header("Fusión")]
-    public float tiempoEsperaFusion = 0.1f; // Tiempo mínimo antes de poder fusionar
+    public float tiempoEsperaFusion = 0.1f;
+
+    [Header("Game Over")]
+    public float margenSuperior = -2.7f;
+    public float tiempoGracia = 2f;
+
+    // Variables límite dinámico
+    private bool usarLimiteDinamico = false;
+    private float margenDinamicoActual = -2.7f;
+    private float margenInicial = -2.7f;
+    private float margenMinimo = -9.5f;
+    private float velocidadDescenso = 0.5f;
+    private GameObject lineaLimiteVisual;
+
+    // Variables basura
+    [Header("Basura (Nivel 3)")]
+    public GameObject prefabBasura;
+    private bool usarBasura = false;
+    private float probabilidadBasura = 0.3f;
+    private float rangoEliminacionBasura = 2f;
+    private List<Esfera> esferasBasura = new List<Esfera>();
 
     private List<Esfera> esferas = new List<Esfera>();
     private Esfera esferaPreview;
@@ -33,6 +53,8 @@ public class Sistema : MonoBehaviour
     private GameObject prefabActual;
     private List<Esfera> esferasAEliminar = new List<Esfera>();
     private List<FusionPendiente> fusionesACrear = new List<FusionPendiente>();
+    private float tiempoSobrepasando = 0f;
+    private bool haySobrepaso = false;
 
     private class FusionPendiente
     {
@@ -56,8 +78,10 @@ public class Sistema : MonoBehaviour
         public bool enJuego;
         public bool marcadaParaFusion;
         public float tiempoCreacion;
+        public bool esBasura;
 
-        public Esfera(GameObject obj, float r, float m, int nv)
+        // ⭐ CORREGIDO: Constructor con parámetro basura
+        public Esfera(GameObject obj, float r, float m, int nv, bool basura = false)
         {
             objeto = obj;
             radio = r;
@@ -67,6 +91,7 @@ public class Sistema : MonoBehaviour
             enJuego = false;
             marcadaParaFusion = false;
             tiempoCreacion = Time.time;
+            esBasura = basura;
         }
     }
 
@@ -77,6 +102,28 @@ public class Sistema : MonoBehaviour
             Debug.LogError("¡Asigna al menos un prefab de bola en la lista!");
             return;
         }
+
+        if (GameData.configuracionActual != null)
+        {
+            usarLimiteDinamico = GameData.configuracionActual.limiteDinamico;
+            velocidadDescenso = GameData.configuracionActual.velocidadDescensoLimite;
+            margenInicial = GameData.configuracionActual.margenInicialLimite;
+            margenMinimo = GameData.configuracionActual.margenMinimoLimite;
+            margenDinamicoActual = margenInicial;
+            margenSuperior = margenInicial;
+
+            usarBasura = GameData.configuracionActual.tieneBasura;
+            probabilidadBasura = GameData.configuracionActual.probabilidadBasura;
+            rangoEliminacionBasura = GameData.configuracionActual.rangoEliminacionBasura;
+
+            Debug.Log($"Límite dinámico: {usarLimiteDinamico}, Basura: {usarBasura}");
+        }
+
+        if (usarLimiteDinamico)
+        {
+            CrearLineaLimiteVisual();
+        }
+
         CrearEsferaPreview();
     }
 
@@ -98,25 +145,40 @@ public class Sistema : MonoBehaviour
                 SoltarEsfera();
             }
         }
+
+        if (usarLimiteDinamico && GameManager.instance != null && !GameManager.instance.EstaJuegoTerminado())
+        {
+            margenDinamicoActual -= velocidadDescenso * Time.deltaTime;
+            margenDinamicoActual = Mathf.Max(margenDinamicoActual, margenMinimo);
+            margenSuperior = margenDinamicoActual;
+            ActualizarPosicionLineaLimite();
+        }
+
+        VerificarLimiteSuperior();
     }
 
     void FixedUpdate()
     {
         float dt = Time.fixedDeltaTime;
 
-        // Aplicar física
         foreach (var esfera in esferas)
         {
             if (!esfera.enJuego) continue;
-
             esfera.velocidad.y -= gravedad * dt;
-
             Vector3 newPos = esfera.objeto.transform.position + (Vector3)(esfera.velocidad * dt);
             newPos.z = 0f;
             esfera.objeto.transform.position = newPos;
         }
 
-        // Detectar colisiones
+        foreach (var basura in esferasBasura)
+        {
+            if (!basura.enJuego) continue;
+            basura.velocidad.y -= gravedad * dt;
+            Vector3 newPos = basura.objeto.transform.position + (Vector3)(basura.velocidad * dt);
+            newPos.z = 0f;
+            basura.objeto.transform.position = newPos;
+        }
+
         for (int i = 0; i < esferas.Count; i++)
         {
             if (!esferas[i].enJuego || esferas[i].marcadaParaFusion) continue;
@@ -126,11 +188,28 @@ public class Sistema : MonoBehaviour
                 if (!esferas[j].enJuego || esferas[j].marcadaParaFusion) continue;
                 DetectarYResolverColision(esferas[i], esferas[j]);
             }
-
             ColisionConContenedor(esferas[i]);
         }
 
-        // Procesar fusiones pendientes
+        foreach (var basura in esferasBasura)
+        {
+            if (!basura.enJuego) continue;
+
+            foreach (var esfera in esferas)
+            {
+                if (!esfera.enJuego || esfera.marcadaParaFusion) continue;
+                DetectarYResolverColision(basura, esfera);
+            }
+
+            foreach (var otraBasura in esferasBasura)
+            {
+                if (basura == otraBasura || !otraBasura.enJuego) continue;
+                DetectarYResolverColision(basura, otraBasura);
+            }
+
+            ColisionConContenedor(basura);
+        }
+
         if (fusionesACrear.Count > 0)
         {
             foreach (var fusion in fusionesACrear)
@@ -140,18 +219,101 @@ public class Sistema : MonoBehaviour
             fusionesACrear.Clear();
         }
 
-        // Eliminar esferas marcadas
         if (esferasAEliminar.Count > 0)
         {
             foreach (var esfera in esferasAEliminar)
             {
-                esferas.Remove(esfera);
+                if (esfera.esBasura)
+                {
+                    esferasBasura.Remove(esfera);
+                }
+                else
+                {
+                    esferas.Remove(esfera);
+                }
+
                 if (esfera.objeto != null)
                 {
                     Destroy(esfera.objeto);
                 }
             }
             esferasAEliminar.Clear();
+        }
+    }
+
+    void VerificarLimiteSuperior()
+    {
+        float limiteSuperior = contenedorPosicion.y + contenedorAlto / 2f + margenDinamicoActual;
+        bool sobrepasaAhora = false;
+
+        foreach (var esfera in esferas)
+        {
+            if (!esfera.enJuego) continue;
+            float posicionSuperior = esfera.objeto.transform.position.y + esfera.radio;
+            if (posicionSuperior > limiteSuperior)
+            {
+                sobrepasaAhora = true;
+                break;
+            }
+        }
+
+        if (!sobrepasaAhora)
+        {
+            foreach (var basura in esferasBasura)
+            {
+                if (!basura.enJuego) continue;
+                float posicionSuperior = basura.objeto.transform.position.y + basura.radio;
+                if (posicionSuperior > limiteSuperior)
+                {
+                    sobrepasaAhora = true;
+                    break;
+                }
+            }
+        }
+
+        if (sobrepasaAhora)
+        {
+            if (!haySobrepaso)
+            {
+                haySobrepaso = true;
+                tiempoSobrepasando = 0f;
+                Debug.Log("⚠️ ¡Las bolas están sobrepasando el límite!");
+            }
+            else
+            {
+                tiempoSobrepasando += Time.deltaTime;
+                if (tiempoSobrepasando >= tiempoGracia)
+                {
+                    TriggerGameOver();
+                }
+            }
+        }
+        else
+        {
+            if (haySobrepaso)
+            {
+                Debug.Log("✅ Las bolas volvieron al límite");
+            }
+            haySobrepaso = false;
+            tiempoSobrepasando = 0f;
+        }
+    }
+
+    void TriggerGameOver()
+    {
+        Debug.Log("💀 GAME OVER - Sobrepasó el límite del contenedor");
+
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.GameOverPorSobrepaso();
+        }
+
+        puedeSpawnear = false;
+
+        if (esferaPreview != null && esferaPreview.objeto != null)
+        {
+            Destroy(esferaPreview.objeto);
+            esferaPreview = null;
         }
     }
 
@@ -162,7 +324,6 @@ public class Sistema : MonoBehaviour
         foreach (GameObject prefab in prefabsBolas)
         {
             if (prefab == null) continue;
-
             Propiedades datos = prefab.GetComponent<Propiedades>();
             if (datos != null && datos.nivel <= maxNivelSpawn)
             {
@@ -184,7 +345,6 @@ public class Sistema : MonoBehaviour
         foreach (GameObject prefab in prefabsBolas)
         {
             if (prefab == null) continue;
-
             Propiedades datos = prefab.GetComponent<Propiedades>();
             if (datos != null && datos.nivel == nivel)
             {
@@ -198,25 +358,52 @@ public class Sistema : MonoBehaviour
 
     void CrearEsferaPreview()
     {
-        prefabActual = SeleccionarPrefabAleatorio();
-        GameObject preview = Instantiate(prefabActual, new Vector3(0, alturaSpawn, 0), Quaternion.identity);
-        preview.name = "Preview";
+        GameObject preview;
+        bool esBasura = false;
 
-        Propiedades datos = preview.GetComponent<Propiedades>();
+        if (usarBasura && Random.value < probabilidadBasura && prefabBasura != null)
+        {
+            preview = Instantiate(prefabBasura, new Vector3(0, alturaSpawn, 0), Quaternion.identity);
+            preview.name = "Preview_Basura";
+            esBasura = true;
+            Debug.Log("🗑️ Siguiente: BASURA");
+        }
+        else
+        {
+            prefabActual = SeleccionarPrefabAleatorio();
+            preview = Instantiate(prefabActual, new Vector3(0, alturaSpawn, 0), Quaternion.identity);
+            preview.name = "Preview";
+        }
+
         float radio = 0.5f;
         float masa = 1f;
         int nivel = 1;
 
-        if (datos != null)
+        if (esBasura)
         {
-            radio = datos.radio;
-            masa = datos.masa;
-            nivel = datos.nivel;
-            preview.transform.localScale = Vector3.one * radio * 2f;
+            PropiedadesBasura datosBasura = preview.GetComponent<PropiedadesBasura>();
+            if (datosBasura != null)
+            {
+                radio = datosBasura.radio;
+                masa = datosBasura.masa;
+                nivel = -1;
+                preview.transform.localScale = Vector3.one * radio * 2f;
+            }
         }
         else
         {
-            Debug.LogWarning($"El prefab {prefabActual.name} no tiene el componente Propiedades");
+            Propiedades datos = preview.GetComponent<Propiedades>();
+            if (datos != null)
+            {
+                radio = datos.radio;
+                masa = datos.masa;
+                nivel = datos.nivel;
+                preview.transform.localScale = Vector3.one * radio * 2f;
+            }
+            else
+            {
+                Debug.LogWarning($"El prefab {prefabActual.name} no tiene el componente Propiedades");
+            }
         }
 
         SpriteRenderer spriteRend = preview.GetComponent<SpriteRenderer>();
@@ -228,7 +415,7 @@ public class Sistema : MonoBehaviour
             spriteRend.color = color;
         }
 
-        esferaPreview = new Esfera(preview, radio, masa, nivel);
+        esferaPreview = new Esfera(preview, radio, masa, nivel, esBasura);
     }
 
     void SoltarEsfera()
@@ -243,7 +430,16 @@ public class Sistema : MonoBehaviour
             spriteRend.color = color;
         }
 
-        esferas.Add(esferaPreview);
+        if (esferaPreview.esBasura)
+        {
+            esferasBasura.Add(esferaPreview);
+            Debug.Log("🗑️ Basura soltada");
+        }
+        else
+        {
+            esferas.Add(esferaPreview);
+        }
+
         esferaPreview = null;
 
         Invoke(nameof(CrearEsferaPreview), 0.5f);
@@ -266,40 +462,33 @@ public class Sistema : MonoBehaviour
 
         if (distancia < distanciaMin && distancia > 0.001f)
         {
-            // VERIFICAR SI SON DEL MISMO NIVEL PARA FUSIONAR
-            if (e1.nivel == e2.nivel && !e1.marcadaParaFusion && !e2.marcadaParaFusion)
+            if (!e1.esBasura && !e2.esBasura &&
+                e1.nivel == e2.nivel && !e1.marcadaParaFusion && !e2.marcadaParaFusion)
             {
-                // Verificar que hayan pasado suficiente tiempo desde su creación
                 float tiempoActual = Time.time;
                 if (tiempoActual - e1.tiempoCreacion > tiempoEsperaFusion &&
                     tiempoActual - e2.tiempoCreacion > tiempoEsperaFusion)
                 {
-                    // Verificar que no sea el nivel máximo
                     if (e1.nivel < prefabsBolas.Count)
                     {
                         Debug.Log($"¡FUSIÓN detectada! Nivel {e1.nivel} -> {e1.nivel + 1}");
 
-                        // Marcar para fusión
                         e1.marcadaParaFusion = true;
                         e2.marcadaParaFusion = true;
 
-                        // Calcular posición promedio
                         Vector3 posFusion = (pos1 + pos2) / 2f;
                         posFusion.z = 0f;
 
-                        // Agregar a lista de fusiones pendientes
                         fusionesACrear.Add(new FusionPendiente(posFusion, e1.nivel + 1));
 
-                        // Marcar para eliminar
                         esferasAEliminar.Add(e1);
                         esferasAEliminar.Add(e2);
 
-                        return; // No procesar física si hay fusión
+                        return;
                     }
                 }
             }
 
-            // Si no hay fusión, aplicar física de colisión normal
             Vector2 normal = (pos2 - pos1).normalized;
             float superposicion = distanciaMin - distancia;
             Vector3 correccion = normal * (superposicion / 2f + 0.001f);
@@ -358,11 +547,24 @@ public class Sistema : MonoBehaviour
 
         Esfera nuevaEsferaObj = new Esfera(nuevaEsfera, radio, masa, nivel);
         nuevaEsferaObj.enJuego = true;
-        nuevaEsferaObj.velocidad = Vector2.zero; // Empieza sin velocidad
+        nuevaEsferaObj.velocidad = Vector2.zero;
         esferas.Add(nuevaEsferaObj);
 
         Debug.Log($"Nueva esfera creada - Nivel: {nivel}, Radio: {radio}");
-        // ⭐ NUEVA LÍNEA: Notificar al GameManager
+
+        if (usarLimiteDinamico)
+        {
+            margenDinamicoActual = margenInicial;
+            margenSuperior = margenInicial;
+            ActualizarPosicionLineaLimite();
+            Debug.Log("✨ ¡Fusión! Límite reiniciado a posición inicial");
+        }
+
+        if (usarBasura)
+        {
+            EliminarBasuraCercana(posicion);
+        }
+
         if (GameManager.instance != null)
         {
             GameManager.instance.RegistrarFusion(nivel);
@@ -399,5 +601,87 @@ public class Sistema : MonoBehaviour
 
         pos.z = 0f;
         esfera.objeto.transform.position = pos;
+    }
+
+    void OnDrawGizmos()
+    {
+        float limiteSuperior = contenedorPosicion.y + contenedorAlto / 2f + (usarLimiteDinamico ? margenDinamicoActual : margenSuperior);
+        Gizmos.color = usarLimiteDinamico ? Color.yellow : Color.red;
+
+        float limiteIzq = contenedorPosicion.x - contenedorAncho / 2f;
+        float limiteDer = contenedorPosicion.x + contenedorAncho / 2f;
+
+        Vector3 puntoIzq = new Vector3(limiteIzq, limiteSuperior, 0f);
+        Vector3 puntoDer = new Vector3(limiteDer, limiteSuperior, 0f);
+
+        Gizmos.DrawLine(puntoIzq, puntoDer);
+
+        for (int i = 0; i < 5; i++)
+        {
+            float offset = (i - 2) * 0.05f;
+            Gizmos.DrawLine(
+                new Vector3(limiteIzq, limiteSuperior + offset, 0f),
+                new Vector3(limiteDer, limiteSuperior + offset, 0f)
+            );
+        }
+    }
+
+    void CrearLineaLimiteVisual()
+    {
+        lineaLimiteVisual = new GameObject("LineaLimite");
+        LineRenderer lr = lineaLimiteVisual.AddComponent<LineRenderer>();
+
+        lr.startWidth = 0.15f;
+        lr.endWidth = 0.15f;
+        lr.material = new Material(Shader.Find("Sprites/Default"));
+        lr.startColor = Color.red;
+        lr.endColor = Color.red;
+        lr.sortingOrder = 100;
+        lr.positionCount = 2;
+
+        ActualizarPosicionLineaLimite();
+    }
+
+    void ActualizarPosicionLineaLimite()
+    {
+        if (lineaLimiteVisual == null) return;
+
+        LineRenderer lr = lineaLimiteVisual.GetComponent<LineRenderer>();
+        if (lr == null) return;
+
+        float limiteSuperior = contenedorPosicion.y + contenedorAlto / 2f + margenDinamicoActual;
+        float limiteIzq = contenedorPosicion.x - contenedorAncho / 2f;
+        float limiteDer = contenedorPosicion.x + contenedorAncho / 2f;
+
+        lr.SetPosition(0, new Vector3(limiteIzq, limiteSuperior, 0f));
+        lr.SetPosition(1, new Vector3(limiteDer, limiteSuperior, 0f));
+
+        float porcentaje = (margenDinamicoActual - margenMinimo) / (margenInicial - margenMinimo);
+        lr.startColor = Color.Lerp(Color.red, Color.yellow, porcentaje);
+        lr.endColor = Color.Lerp(Color.red, Color.yellow, porcentaje);
+    }
+
+    void EliminarBasuraCercana(Vector3 posicionFusion)
+    {
+        int contadorEliminadas = 0;
+
+        foreach (var basura in esferasBasura.ToArray())
+        {
+            if (!basura.enJuego) continue;
+
+            float distancia = Vector3.Distance(basura.objeto.transform.position, posicionFusion);
+
+            if (distancia <= rangoEliminacionBasura)
+            {
+                esferasAEliminar.Add(basura);
+                contadorEliminadas++;
+                Debug.Log($"🗑️💥 Basura eliminada por fusión cercana");
+            }
+        }
+
+        if (contadorEliminadas > 0)
+        {
+            Debug.Log($"✨ ¡Eliminadas {contadorEliminadas} basuras con la fusión!");
+        }
     }
 }

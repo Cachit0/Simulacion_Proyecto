@@ -83,12 +83,50 @@ public class ConfiguracionNivel
     public float tiempoLimite; // En segundos
     public ObjetivoNivel[] objetivos; // Qué debe conseguir
 
+    //Nuevo
+    public bool limiteDinamico = false; // Si el límite baja con el tiempo
+    public float velocidadDescensoLimite = 0.5f; // Unidades por segundo que baja
+    public float margenInicialLimite = 0.5f; // Margen inicial
+    public float margenMinimoLimite = -2f; // Hasta dónde puede bajar (negativo = dentro del contenedor)
+
+    // ⭐ NUEVAS: Mecánicas de basura nivel 3
+    public bool tieneBasura = false;
+    public float probabilidadBasura = 0.3f; // 30% de probabilidad de que aparezca basura
+    public float rangoEliminacionBasura = 2f; // Distancia para eliminar basura con fusión
+
     public ConfiguracionNivel(int nivel, string nombre, float tiempo, ObjetivoNivel[] objs)
     {
         numeroNivel = nivel;
         nombreEncargo = nombre;
         tiempoLimite = tiempo;
         objetivos = objs;
+    }
+
+    //Nuevo
+    public ConfiguracionNivel(int nivel, string nombre, float tiempo, ObjetivoNivel[] objs,
+                            bool limiteDin, float velDescenso, float margenInicial, float margenMinimo)
+    {
+        numeroNivel = nivel;
+        nombreEncargo = nombre;
+        tiempoLimite = tiempo;
+        objetivos = objs;
+        limiteDinamico = limiteDin;
+        velocidadDescensoLimite = velDescenso;
+        margenInicialLimite = margenInicial;
+        margenMinimoLimite = margenMinimo;
+    }
+
+    // ⭐ NUEVO: Constructor para nivel 3 con basura
+    public ConfiguracionNivel(int nivel, string nombre, float tiempo, ObjetivoNivel[] objs,
+                            bool tieneBasura, float probBasura, float rangoElim)
+    {
+        numeroNivel = nivel;
+        nombreEncargo = nombre;
+        tiempoLimite = tiempo;
+        objetivos = objs;
+        this.tieneBasura = tieneBasura;
+        this.probabilidadBasura = probBasura;
+        this.rangoEliminacionBasura = rangoElim;
     }
 }
 

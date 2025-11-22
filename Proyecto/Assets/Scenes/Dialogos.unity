@@ -879,19 +879,63 @@ MonoBehaviour:
   introNivel2:
     nombreEscena: Escena 1
     fondoInicial: {fileID: 0}
-    dialogos: []
+    dialogos:
+    - nombrePersonaje: 707
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Yujuuuu
+      modoPersonajes: 1
+      personajePrincipal: {fileID: -5691312873769121585, guid: af7ec806d4b9a444ba7a39f80ad167dc, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: 0}
+      posicionPersonajeSecundario: 0
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
   introNivel3:
     nombreEscena: Escena 1
     fondoInicial: {fileID: 0}
-    dialogos: []
+    dialogos:
+    - nombrePersonaje: 707
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Yipe yupi
+      modoPersonajes: 1
+      personajePrincipal: {fileID: -5691312873769121585, guid: af7ec806d4b9a444ba7a39f80ad167dc, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: 0}
+      posicionPersonajeSecundario: 0
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
   victoriaFinal:
     nombreEscena: Escena 1
     fondoInicial: {fileID: 0}
-    dialogos: []
+    dialogos:
+    - nombrePersonaje: 707
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Se logro familia
+      modoPersonajes: 0
+      personajePrincipal: {fileID: 0}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: 0}
+      posicionPersonajeSecundario: 0
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
   derrota:
     nombreEscena: Escena 1
     fondoInicial: {fileID: 0}
-    dialogos: []
+    dialogos:
+    - nombrePersonaje: 707
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: No se logro familia :C
+      modoPersonajes: 0
+      personajePrincipal: {fileID: 0}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: 0}
+      posicionPersonajeSecundario: 0
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
 --- !u!1 &1262244951
 GameObject:
   m_ObjectHideFlags: 0

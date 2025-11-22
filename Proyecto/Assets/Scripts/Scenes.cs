@@ -30,10 +30,10 @@ public class Scenes : MonoBehaviour
         GameData.configuracionActual = new ConfiguracionNivel(
             1,
             "Pociones de Curación",
-            10f,
+            60f,
             new ObjetivoNivel[]
             {
-                new ObjetivoNivel(3, 1)
+                new ObjetivoNivel(12, 1)
             }
         );
 
@@ -52,14 +52,16 @@ public class Scenes : MonoBehaviour
         GameData.nivelActual = 2;
         GameData.tipoDialogo = TipoDialogo.Intro;
 
+        // ⭐ NIVEL 2 con límite dinámico
         GameData.configuracionActual = new ConfiguracionNivel(
             2,
             "Elixires Mágicos",
-            10f,
-            new ObjetivoNivel[]
-            {
-                new ObjetivoNivel(3, 1)
-            }
+            60f,
+            new ObjetivoNivel[] { new ObjetivoNivel(8, 1) }, // Fusionar hasta nivel 8
+            true,        // ← limiteDinamico = true
+            0.3f,        // ← velocidadDescenso = 0.3 unidades/segundo
+            -2.7f,        // ← margenInicial = 0.5
+            -9.5f          // ← margenMinimo = -2 (puede entrar 2 unidades en el contenedor)
         );
 
         SceneManager.LoadScene("Dialogos");
@@ -67,7 +69,6 @@ public class Scenes : MonoBehaviour
 
     public void SeleccionarNivel3()
     {
-        // ⭐ VERIFICAR: Solo permite jugar si intentó el nivel 1 y 2
         if (!GameData.NivelDesbloqueado(3))
         {
             Debug.Log("¡Debes jugar los niveles anteriores primero!");
@@ -77,22 +78,17 @@ public class Scenes : MonoBehaviour
         GameData.nivelActual = 3;
         GameData.tipoDialogo = TipoDialogo.Intro;
 
+        // ⭐ NIVEL 3 con basura
         GameData.configuracionActual = new ConfiguracionNivel(
             3,
             "Tónicos Supremos",
-            10f,
-            new ObjetivoNivel[]
-            {
-                new ObjetivoNivel(3, 1)
-            }
+            120f,
+            new ObjetivoNivel[] { new ObjetivoNivel(10, 1) },
+            true,    // ← tieneBasura = true
+            0.3f,    // ← probabilidadBasura = 30%
+            2.5f     // ← rangoEliminacion = 2.5 unidades
         );
 
         SceneManager.LoadScene("Dialogos");
-    }
-
-    public void Salir()
-    {
-        Debug.Log("Saliendo del juego...");
-        Application.Quit();
     }
 }

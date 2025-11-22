@@ -1490,7 +1490,7 @@ MonoBehaviour:
   - {fileID: 701678565560937072, guid: e7aa5d3b17f3df24cb4247d8b962b01f, type: 3}
   - {fileID: 7887283378074954097, guid: 407484f1a0fd5e549855560d1f3b3641, type: 3}
   - {fileID: 633722107858319797, guid: 85987b61d63352d4cbaf809f0236365c, type: 3}
-  alturaSpawn: 4.5
+  alturaSpawn: 3
   orderInLayer: 10
   maxNivelSpawn: 6
   contenedorAncho: 8
@@ -1500,6 +1500,9 @@ MonoBehaviour:
   coefRestitucion: 0.8
   teclaSpawn: 323
   tiempoEsperaFusion: 0.1
+  margenSuperior: -2.7
+  tiempoGracia: 2
+  prefabBasura: {fileID: 5423220173063939741, guid: 12b8bb2ff94cd7843b2db6076ef72280, type: 3}
 --- !u!1 &1595640538
 GameObject:
   m_ObjectHideFlags: 0

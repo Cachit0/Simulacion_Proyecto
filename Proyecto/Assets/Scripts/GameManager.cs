@@ -265,9 +265,24 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Dialogos");
     }
 
+    // ⭐ NUEVO MÉTODO: Game Over por sobrepaso
+    public void GameOverPorSobrepaso()
+    {
+        if (juegoTerminado) return;
+
+        Debug.Log("💀 DERROTA por sobrepaso del límite");
+        TerminarJuego(false); // Perdió
+    }
+
     // Método público para pausar/despausar (por si lo necesitas)
     public void PausarJuego(bool pausar)
     {
         juegoActivo = !pausar;
+    }
+
+    // ⭐ NUEVO: Método público para verificar si el juego terminó
+    public bool EstaJuegoTerminado()
+    {
+        return juegoTerminado;
     }
 }
