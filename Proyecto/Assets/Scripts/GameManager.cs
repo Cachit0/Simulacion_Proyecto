@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
         if (textoObjetivos == null) return;
 
         // ⭐ Asegurar tamaño de fuente correcto
-        textoObjetivos.fontSize = 24;
+        textoObjetivos.fontSize = 18;
         textoObjetivos.enableAutoSizing = false;
 
         // Construir texto con todos los objetivos

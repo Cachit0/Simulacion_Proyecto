@@ -29,11 +29,12 @@ public class Scenes : MonoBehaviour
 
         GameData.configuracionActual = new ConfiguracionNivel(
             1,
-            "Pociones de Curación",
-            60f,
+            "Lobo Hombre",
+            180f,
             new ObjetivoNivel[]
             {
-                new ObjetivoNivel(12, 1)
+                new ObjetivoNivel(9, 1),
+                new ObjetivoNivel(7, 3)
             }
         );
 
@@ -55,9 +56,9 @@ public class Scenes : MonoBehaviour
         // ⭐ NIVEL 2 con límite dinámico
         GameData.configuracionActual = new ConfiguracionNivel(
             2,
-            "Elixires Mágicos",
-            60f,
-            new ObjetivoNivel[] { new ObjetivoNivel(8, 1) }, // Fusionar hasta nivel 8
+            "Ectoplasma ? ? ?",
+            190f,
+            new ObjetivoNivel[] { new ObjetivoNivel(8, 2), new ObjetivoNivel(7, 3) }, // Fusionar hasta nivel 8
             true,        // ← limiteDinamico = true
             0.3f,        // ← velocidadDescenso = 0.3 unidades/segundo
             -2.7f,        // ← margenInicial = 0.5
@@ -81,9 +82,9 @@ public class Scenes : MonoBehaviour
         // ⭐ NIVEL 3 con basura
         GameData.configuracionActual = new ConfiguracionNivel(
             3,
-            "Tónicos Supremos",
-            120f,
-            new ObjetivoNivel[] { new ObjetivoNivel(10, 1) },
+            "Todo por el dinero",
+            300f,
+            new ObjetivoNivel[] { new ObjetivoNivel(10, 1), new ObjetivoNivel(9, 1), new ObjetivoNivel(4, 8) },
             true,    // ← tieneBasura = true
             0.3f,    // ← probabilidadBasura = 30%
             2.5f     // ← rangoEliminacion = 2.5 unidades

@@ -69,27 +69,5 @@ public class BotonNivel : MonoBehaviour
         {
             iconoCandado.SetActive(!desbloqueado);
         }
-
-        // Actualizar texto SIN cambiar color
-        if (texto != null)
-        {
-            if (completado)
-            {
-                texto.text = $"Nivel {numeroNivel}"; // Checkmark si completó
-            }
-            else if (intentado)
-            {
-                texto.text = $"Nivel {numeroNivel}"; // X si intentó pero falló
-            }
-            else if (desbloqueado)
-            {
-                texto.text = $"Nivel {numeroNivel}";
-            }
-            else
-            {
-                texto.text = $"Nivel {numeroNivel}"; // Candado si bloqueado
-            }
-            // NO cambiar texto.color - mantener el color original
-        }
     }
 }

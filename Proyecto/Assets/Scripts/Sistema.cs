@@ -21,6 +21,12 @@ public class Sistema : MonoBehaviour
     public float gravedad = 9.81f;
     public float coefRestitucion = 0.4f;
 
+    [Header("Rotación")]
+    public float factorRotacion = 50f; // Controla qué tan rápido rotan
+    public float friccionRotacional = 0.98f; // Reduce la rotación gradualmente
+    public float umbralVelocidadMinima = 0.5f; // Velocidad mínima para rotar
+    public float umbralRotacionMinima = 5f; // Rotación mínima antes de detenerse
+
     [Header("Control")]
     public KeyCode teclaSpawn = KeyCode.Mouse0;
 
@@ -80,7 +86,10 @@ public class Sistema : MonoBehaviour
         public float tiempoCreacion;
         public bool esBasura;
 
-        // ⭐ CORREGIDO: Constructor con parámetro basura
+        // Variables de rotación
+        public float velocidadAngular;
+        public float anguloActual;
+
         public Esfera(GameObject obj, float r, float m, int nv, bool basura = false)
         {
             objeto = obj;
@@ -92,6 +101,8 @@ public class Sistema : MonoBehaviour
             marcadaParaFusion = false;
             tiempoCreacion = Time.time;
             esBasura = basura;
+            velocidadAngular = 0f;
+            anguloActual = 0f;
         }
     }
 
@@ -164,19 +175,25 @@ public class Sistema : MonoBehaviour
         foreach (var esfera in esferas)
         {
             if (!esfera.enJuego) continue;
+
             esfera.velocidad.y -= gravedad * dt;
             Vector3 newPos = esfera.objeto.transform.position + (Vector3)(esfera.velocidad * dt);
             newPos.z = 0f;
             esfera.objeto.transform.position = newPos;
+
+            ActualizarRotacion(esfera, dt);
         }
 
         foreach (var basura in esferasBasura)
         {
             if (!basura.enJuego) continue;
+
             basura.velocidad.y -= gravedad * dt;
             Vector3 newPos = basura.objeto.transform.position + (Vector3)(basura.velocidad * dt);
             newPos.z = 0f;
             basura.objeto.transform.position = newPos;
+
+            ActualizarRotacion(basura, dt);
         }
 
         for (int i = 0; i < esferas.Count; i++)
@@ -239,6 +256,208 @@ public class Sistema : MonoBehaviour
             }
             esferasAEliminar.Clear();
         }
+    }
+
+    // ⭐ MEJORADO: Función para actualizar la rotación con umbrales
+    void ActualizarRotacion(Esfera esfera, float dt)
+    {
+        // Solo rotar si la velocidad es significativa
+        float velocidadLineal = Mathf.Abs(esfera.velocidad.x);
+
+        if (velocidadLineal > umbralVelocidadMinima)
+        {
+            // Calcular velocidad angular basada en velocidad lineal
+            float velocidadAngularObjetivo = (esfera.velocidad.x / esfera.radio) * factorRotacion;
+
+            // Interpolar suavemente hacia la velocidad angular objetivo
+            esfera.velocidadAngular = Mathf.Lerp(esfera.velocidadAngular, velocidadAngularObjetivo, 0.1f);
+        }
+        else
+        {
+            // Si la velocidad es muy baja, detener gradualmente la rotación
+            esfera.velocidadAngular *= 0.9f; // Fricción más fuerte cuando está quieta
+        }
+
+        // Aplicar fricción rotacional
+        esfera.velocidadAngular *= friccionRotacional;
+
+        // Detener completamente si la rotación es muy pequeña
+        if (Mathf.Abs(esfera.velocidadAngular) < umbralRotacionMinima)
+        {
+            esfera.velocidadAngular = 0f;
+        }
+
+        // Actualizar ángulo solo si hay rotación
+        if (Mathf.Abs(esfera.velocidadAngular) > 0.01f)
+        {
+            esfera.anguloActual += esfera.velocidadAngular * dt;
+            // Aplicar rotación al objeto
+            esfera.objeto.transform.rotation = Quaternion.Euler(0f, 0f, esfera.anguloActual);
+        }
+    }
+
+    void DetectarYResolverColision(Esfera e1, Esfera e2)
+    {
+        Vector2 pos1 = e1.objeto.transform.position;
+        Vector2 pos2 = e2.objeto.transform.position;
+
+        float distancia = Vector2.Distance(pos1, pos2);
+        float distanciaMin = e1.radio + e2.radio;
+
+        if (distancia < distanciaMin && distancia > 0.001f)
+        {
+            if (!e1.esBasura && !e2.esBasura &&
+                e1.nivel == e2.nivel && !e1.marcadaParaFusion && !e2.marcadaParaFusion)
+            {
+                float tiempoActual = Time.time;
+                if (tiempoActual - e1.tiempoCreacion > tiempoEsperaFusion &&
+                    tiempoActual - e2.tiempoCreacion > tiempoEsperaFusion)
+                {
+                    if (e1.nivel < prefabsBolas.Count)
+                    {
+                        Debug.Log($"¡FUSIÓN detectada! Nivel {e1.nivel} -> {e1.nivel + 1}");
+
+                        e1.marcadaParaFusion = true;
+                        e2.marcadaParaFusion = true;
+
+                        Vector3 posFusion = (pos1 + pos2) / 2f;
+                        posFusion.z = 0f;
+
+                        fusionesACrear.Add(new FusionPendiente(posFusion, e1.nivel + 1));
+
+                        esferasAEliminar.Add(e1);
+                        esferasAEliminar.Add(e2);
+
+                        return;
+                    }
+                }
+            }
+
+            Vector2 normal = (pos2 - pos1).normalized;
+            float superposicion = distanciaMin - distancia;
+            Vector3 correccion = normal * (superposicion / 2f + 0.001f);
+
+            Vector3 newPos1 = e1.objeto.transform.position - (Vector3)correccion;
+            Vector3 newPos2 = e2.objeto.transform.position + (Vector3)correccion;
+            newPos1.z = 0f;
+            newPos2.z = 0f;
+            e1.objeto.transform.position = newPos1;
+            e2.objeto.transform.position = newPos2;
+
+            Vector2 tangente = new Vector2(-normal.y, normal.x);
+
+            float v1n = Vector2.Dot(e1.velocidad, normal);
+            float v1t = Vector2.Dot(e1.velocidad, tangente);
+            float v2n = Vector2.Dot(e2.velocidad, normal);
+            float v2t = Vector2.Dot(e2.velocidad, tangente);
+
+            float m1 = e1.masa;
+            float m2 = e2.masa;
+            float v1nNew = ((m1 - m2) * v1n + 2f * m2 * v2n) / (m1 + m2);
+            float v2nNew = ((m2 - m1) * v2n + 2f * m1 * v1n) / (m1 + m2);
+
+            v1nNew *= coefRestitucion;
+            v2nNew *= coefRestitucion;
+
+            e1.velocidad = v1nNew * normal + v1t * tangente;
+            e2.velocidad = v2nNew * normal + v2t * tangente;
+
+            // Transferir momento angular en la colisión
+            float cambioVelocidad1 = Vector2.Dot(e1.velocidad, tangente) - v1t;
+            float cambioVelocidad2 = Vector2.Dot(e2.velocidad, tangente) - v2t;
+
+            e1.velocidadAngular += (cambioVelocidad1 / e1.radio) * factorRotacion * 0.5f;
+            e2.velocidadAngular += (cambioVelocidad2 / e2.radio) * factorRotacion * 0.5f;
+        }
+    }
+
+    void CrearEsferaFusionada(Vector3 posicion, int nivel)
+    {
+        GameObject prefab = ObtenerPrefabPorNivel(nivel);
+        if (prefab == null) return;
+
+        GameObject nuevaEsfera = Instantiate(prefab, posicion, Quaternion.identity);
+        nuevaEsfera.name = $"Esfera_Nivel{nivel}";
+
+        Propiedades datos = nuevaEsfera.GetComponent<Propiedades>();
+        float radio = 0.5f;
+        float masa = 1f;
+
+        if (datos != null)
+        {
+            radio = datos.radio;
+            masa = datos.masa;
+            nuevaEsfera.transform.localScale = Vector3.one * radio * 2f;
+        }
+
+        SpriteRenderer spriteRend = nuevaEsfera.GetComponent<SpriteRenderer>();
+        if (spriteRend != null)
+        {
+            spriteRend.sortingOrder = orderInLayer;
+        }
+
+        Esfera nuevaEsferaObj = new Esfera(nuevaEsfera, radio, masa, nivel);
+        nuevaEsferaObj.enJuego = true;
+        nuevaEsferaObj.velocidad = Vector2.zero;
+        nuevaEsferaObj.velocidadAngular = Random.Range(-50f, 50f);
+        esferas.Add(nuevaEsferaObj);
+
+        Debug.Log($"Nueva esfera creada - Nivel: {nivel}, Radio: {radio}");
+
+        if (usarLimiteDinamico)
+        {
+            margenDinamicoActual = margenInicial;
+            margenSuperior = margenInicial;
+            ActualizarPosicionLineaLimite();
+            Debug.Log("✨ ¡Fusión! Límite reiniciado a posición inicial");
+        }
+
+        if (usarBasura)
+        {
+            EliminarBasuraCercana(posicion);
+        }
+
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.RegistrarFusion(nivel);
+        }
+    }
+
+    void ColisionConContenedor(Esfera esfera)
+    {
+        Vector3 pos = esfera.objeto.transform.position;
+        float r = esfera.radio;
+
+        float limiteIzq = contenedorPosicion.x - contenedorAncho / 2f;
+        float limiteDer = contenedorPosicion.x + contenedorAncho / 2f;
+        float limiteAbajo = contenedorPosicion.y - contenedorAlto / 2f;
+
+        if (pos.x - r < limiteIzq)
+        {
+            pos.x = limiteIzq + r;
+            float velocidadAnterior = esfera.velocidad.x;
+            esfera.velocidad.x = -esfera.velocidad.x * coefRestitucion;
+            esfera.velocidadAngular += (velocidadAnterior / r) * factorRotacion * 0.3f;
+        }
+
+        if (pos.x + r > limiteDer)
+        {
+            pos.x = limiteDer - r;
+            float velocidadAnterior = esfera.velocidad.x;
+            esfera.velocidad.x = -esfera.velocidad.x * coefRestitucion;
+            esfera.velocidadAngular += (velocidadAnterior / r) * factorRotacion * 0.3f;
+        }
+
+        if (pos.y - r < limiteAbajo)
+        {
+            pos.y = limiteAbajo + r;
+            esfera.velocidad.y = -esfera.velocidad.y * coefRestitucion;
+            esfera.velocidad.x *= 0.95f;
+            esfera.velocidadAngular *= 0.8f;
+        }
+
+        pos.z = 0f;
+        esfera.objeto.transform.position = pos;
     }
 
     void VerificarLimiteSuperior()
@@ -366,7 +585,7 @@ public class Sistema : MonoBehaviour
             preview = Instantiate(prefabBasura, new Vector3(0, alturaSpawn, 0), Quaternion.identity);
             preview.name = "Preview_Basura";
             esBasura = true;
-            Debug.Log("🗑️ Siguiente: BASURA");
+            Debug.Log("Siguiente: BASURA");
         }
         else
         {
@@ -433,7 +652,7 @@ public class Sistema : MonoBehaviour
         if (esferaPreview.esBasura)
         {
             esferasBasura.Add(esferaPreview);
-            Debug.Log("🗑️ Basura soltada");
+            Debug.Log("Basura soltada");
         }
         else
         {
@@ -450,157 +669,6 @@ public class Sistema : MonoBehaviour
     void HabilitarSpawn()
     {
         puedeSpawnear = true;
-    }
-
-    void DetectarYResolverColision(Esfera e1, Esfera e2)
-    {
-        Vector2 pos1 = e1.objeto.transform.position;
-        Vector2 pos2 = e2.objeto.transform.position;
-
-        float distancia = Vector2.Distance(pos1, pos2);
-        float distanciaMin = e1.radio + e2.radio;
-
-        if (distancia < distanciaMin && distancia > 0.001f)
-        {
-            if (!e1.esBasura && !e2.esBasura &&
-                e1.nivel == e2.nivel && !e1.marcadaParaFusion && !e2.marcadaParaFusion)
-            {
-                float tiempoActual = Time.time;
-                if (tiempoActual - e1.tiempoCreacion > tiempoEsperaFusion &&
-                    tiempoActual - e2.tiempoCreacion > tiempoEsperaFusion)
-                {
-                    if (e1.nivel < prefabsBolas.Count)
-                    {
-                        Debug.Log($"¡FUSIÓN detectada! Nivel {e1.nivel} -> {e1.nivel + 1}");
-
-                        e1.marcadaParaFusion = true;
-                        e2.marcadaParaFusion = true;
-
-                        Vector3 posFusion = (pos1 + pos2) / 2f;
-                        posFusion.z = 0f;
-
-                        fusionesACrear.Add(new FusionPendiente(posFusion, e1.nivel + 1));
-
-                        esferasAEliminar.Add(e1);
-                        esferasAEliminar.Add(e2);
-
-                        return;
-                    }
-                }
-            }
-
-            Vector2 normal = (pos2 - pos1).normalized;
-            float superposicion = distanciaMin - distancia;
-            Vector3 correccion = normal * (superposicion / 2f + 0.001f);
-
-            Vector3 newPos1 = e1.objeto.transform.position - (Vector3)correccion;
-            Vector3 newPos2 = e2.objeto.transform.position + (Vector3)correccion;
-            newPos1.z = 0f;
-            newPos2.z = 0f;
-            e1.objeto.transform.position = newPos1;
-            e2.objeto.transform.position = newPos2;
-
-            Vector2 tangente = new Vector2(-normal.y, normal.x);
-
-            float v1n = Vector2.Dot(e1.velocidad, normal);
-            float v1t = Vector2.Dot(e1.velocidad, tangente);
-            float v2n = Vector2.Dot(e2.velocidad, normal);
-            float v2t = Vector2.Dot(e2.velocidad, tangente);
-
-            float m1 = e1.masa;
-            float m2 = e2.masa;
-            float v1nNew = ((m1 - m2) * v1n + 2f * m2 * v2n) / (m1 + m2);
-            float v2nNew = ((m2 - m1) * v2n + 2f * m1 * v1n) / (m1 + m2);
-
-            v1nNew *= coefRestitucion;
-            v2nNew *= coefRestitucion;
-
-            e1.velocidad = v1nNew * normal + v1t * tangente;
-            e2.velocidad = v2nNew * normal + v2t * tangente;
-        }
-    }
-
-    void CrearEsferaFusionada(Vector3 posicion, int nivel)
-    {
-        GameObject prefab = ObtenerPrefabPorNivel(nivel);
-        if (prefab == null) return;
-
-        GameObject nuevaEsfera = Instantiate(prefab, posicion, Quaternion.identity);
-        nuevaEsfera.name = $"Esfera_Nivel{nivel}";
-
-        Propiedades datos = nuevaEsfera.GetComponent<Propiedades>();
-        float radio = 0.5f;
-        float masa = 1f;
-
-        if (datos != null)
-        {
-            radio = datos.radio;
-            masa = datos.masa;
-            nuevaEsfera.transform.localScale = Vector3.one * radio * 2f;
-        }
-
-        SpriteRenderer spriteRend = nuevaEsfera.GetComponent<SpriteRenderer>();
-        if (spriteRend != null)
-        {
-            spriteRend.sortingOrder = orderInLayer;
-        }
-
-        Esfera nuevaEsferaObj = new Esfera(nuevaEsfera, radio, masa, nivel);
-        nuevaEsferaObj.enJuego = true;
-        nuevaEsferaObj.velocidad = Vector2.zero;
-        esferas.Add(nuevaEsferaObj);
-
-        Debug.Log($"Nueva esfera creada - Nivel: {nivel}, Radio: {radio}");
-
-        if (usarLimiteDinamico)
-        {
-            margenDinamicoActual = margenInicial;
-            margenSuperior = margenInicial;
-            ActualizarPosicionLineaLimite();
-            Debug.Log("✨ ¡Fusión! Límite reiniciado a posición inicial");
-        }
-
-        if (usarBasura)
-        {
-            EliminarBasuraCercana(posicion);
-        }
-
-        if (GameManager.instance != null)
-        {
-            GameManager.instance.RegistrarFusion(nivel);
-        }
-    }
-
-    void ColisionConContenedor(Esfera esfera)
-    {
-        Vector3 pos = esfera.objeto.transform.position;
-        float r = esfera.radio;
-
-        float limiteIzq = contenedorPosicion.x - contenedorAncho / 2f;
-        float limiteDer = contenedorPosicion.x + contenedorAncho / 2f;
-        float limiteAbajo = contenedorPosicion.y - contenedorAlto / 2f;
-
-        if (pos.x - r < limiteIzq)
-        {
-            pos.x = limiteIzq + r;
-            esfera.velocidad.x = -esfera.velocidad.x * coefRestitucion;
-        }
-
-        if (pos.x + r > limiteDer)
-        {
-            pos.x = limiteDer - r;
-            esfera.velocidad.x = -esfera.velocidad.x * coefRestitucion;
-        }
-
-        if (pos.y - r < limiteAbajo)
-        {
-            pos.y = limiteAbajo + r;
-            esfera.velocidad.y = -esfera.velocidad.y * coefRestitucion;
-            esfera.velocidad.x *= 0.95f;
-        }
-
-        pos.z = 0f;
-        esfera.objeto.transform.position = pos;
     }
 
     void OnDrawGizmos()
@@ -675,13 +743,13 @@ public class Sistema : MonoBehaviour
             {
                 esferasAEliminar.Add(basura);
                 contadorEliminadas++;
-                Debug.Log($"🗑️💥 Basura eliminada por fusión cercana");
+                Debug.Log($"Basura eliminada");
             }
         }
 
         if (contadorEliminadas > 0)
         {
-            Debug.Log($"✨ ¡Eliminadas {contadorEliminadas} basuras con la fusión!");
+            Debug.Log($"Eliminadas {contadorEliminadas} basuras con la fusión");
         }
     }
 }

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: af7ec806d4b9a444ba7a39f80ad167dc
+guid: 924b0b097e7e5b940a7323cdde10c4ba
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5691312873769121585
-    second: Tumblr_messaging_od3fnnAa2m1tm2kl3_1280_0
+      213: 745838420577897996
+    second: fantasma2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Tumblr_messaging_od3fnnAa2m1tm2kl3_1280_0
+      name: fantasma2_0
       rect:
         serializedVersion: 2
-        x: 61
-        y: 0
-        width: 432
-        height: 581
+        x: 27
+        y: 61
+        width: 665
+        height: 939
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fc8426d58156401b0800000000000000
-      internalID: -5691312873769121585
+      spriteID: c0e42668710c95a00800000000000000
+      internalID: 745838420577897996
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Tumblr_messaging_od3fnnAa2m1tm2kl3_1280_0: -5691312873769121585
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

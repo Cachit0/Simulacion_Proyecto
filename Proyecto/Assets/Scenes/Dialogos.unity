@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.92836696, g: 0.759434, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -194,81 +194,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 80469216}
   m_CullTransparentMesh: 1
---- !u!1 &107509124
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 107509125}
-  - component: {fileID: 107509126}
-  - component: {fileID: 107509127}
-  m_Layer: 5
-  m_Name: Med
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &107509125
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 107509124}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.8891, y: 4.8891, z: 4.8891}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1262244955}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &107509126
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 107509124}
-  m_CullTransparentMesh: 1
---- !u!114 &107509127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 107509124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &327153878
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,7 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdee25abd18be94d841bcdfade68e2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &485251305
+--- !u!1 &448648005
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -382,50 +307,50 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 485251306}
-  - component: {fileID: 485251307}
-  - component: {fileID: 485251308}
+  - component: {fileID: 448648006}
+  - component: {fileID: 448648007}
+  - component: {fileID: 448648008}
   m_Layer: 5
-  m_Name: Der
+  m_Name: Med
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &485251306
+--- !u!224 &448648006
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 485251305}
+  m_GameObject: {fileID: 448648005}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.860314, y: 4.860314, z: 4.860314}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 6.1300006, y: 8.781774, z: 6.1300006}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1262244955}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 606, y: 0}
+  m_AnchoredPosition: {x: 10, y: 39}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &485251307
+--- !u!222 &448648007
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 485251305}
+  m_GameObject: {fileID: 448648005}
   m_CullTransparentMesh: 1
---- !u!114 &485251308
+--- !u!114 &448648008
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 485251305}
+  m_GameObject: {fileID: 448648005}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -480,15 +405,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.5235849, b: 0.5235849, a: 1}
+  m_Color: {r: 0.82113695, g: 0.61000353, b: 0.8679245, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: -1105551635845692244, guid: 14755daa561ab90438ba71a6e3f86da5, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -514,7 +439,7 @@ RectTransform:
   m_GameObject: {fileID: 675021670}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8875, y: 0.35999998, z: 1}
+  m_LocalScale: {x: 0.9651562, y: 0.45, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 989679235}
@@ -623,7 +548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -675,7 +600,7 @@ RectTransform:
   m_GameObject: {fileID: 989679234}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5287874, y: 3.2185, z: 3.2185}
+  m_LocalScale: {x: 1.5096775, y: 3.2185, z: 3.2185}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 675021673}
@@ -742,8 +667,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 33
+  m_fontSizeBase: 33
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -780,7 +705,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -66.14505, y: 0, z: -891.622, w: -128.43204}
+  m_margin: {x: 0.006469719, y: 24.336597, z: -867.734, w: -72.27074}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -834,106 +759,531 @@ MonoBehaviour:
   textoNombrePersonaje: {fileID: 1758210960}
   indicadorContinuar: {fileID: 828000630}
   imagenPersonajeIzquierda: {fileID: 1457705771}
-  imagenPersonajeCentro: {fileID: 107509127}
-  imagenPersonajeDerecha: {fileID: 485251308}
+  imagenPersonajeCentro: {fileID: 448648008}
+  imagenPersonajeDerecha: {fileID: 1871145731}
   imagenFondo: {fileID: 80469218}
   efectoEscritura: 1
   velocidadEscritura: 0.05
   introNivel1:
     nombreEscena: Escena 1
-    fondoInicial: {fileID: 0}
+    fondoInicial: {fileID: -3552702312740951106, guid: 8039b76ce9357cb4f9d67a8d38a20bce, type: 3}
     dialogos:
-    - nombrePersonaje: 707
-      colorNombre: {r: 1, g: 0.28773582, b: 0.8808194, a: 0}
-      texto: Peneeee
+    - nombrePersonaje: Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "\xBFLo dice en serio?"
       modoPersonajes: 2
-      personajePrincipal: {fileID: -5691312873769121585, guid: af7ec806d4b9a444ba7a39f80ad167dc, type: 3}
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
       posicionPersonajePrincipal: 0
       principalHabla: 1
-      personajeSecundario: {fileID: 6046821869682581241, guid: accb936a6dad3034caf57cd8d8c7106d, type: 3}
+      personajeSecundario: {fileID: -4034764415900404906, guid: 6445552d643fdd644ae9b9e1ab317148, type: 3}
       posicionPersonajeSecundario: 2
       secundarioHabla: 0
       imagenFondo: {fileID: 0}
-    - nombrePersonaje: Seran
-      colorNombre: {r: 1, g: 1, b: 1, a: 0}
-      texto: Puto
+    - nombrePersonaje: Maestra de Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Todos merecemos un descanso una vez cada milenio
       modoPersonajes: 2
-      personajePrincipal: {fileID: -5691312873769121585, guid: af7ec806d4b9a444ba7a39f80ad167dc, type: 3}
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
       posicionPersonajePrincipal: 0
       principalHabla: 0
-      personajeSecundario: {fileID: 6046821869682581241, guid: accb936a6dad3034caf57cd8d8c7106d, type: 3}
+      personajeSecundario: {fileID: 1515110643752042935, guid: 413ffa43a7f556e4ba7c30b5ffc26fd1, type: 3}
       posicionPersonajeSecundario: 2
       secundarioHabla: 1
       imagenFondo: {fileID: 0}
-    - nombrePersonaje: 707
+    - nombrePersonaje: Sabrina
       colorNombre: {r: 0, g: 0, b: 0, a: 0}
-      texto: No me digas asi papu :C
+      texto: Pero entonces lleveme con usted... Yo aun no estoy lista-
       modoPersonajes: 2
-      personajePrincipal: {fileID: -5691312873769121585, guid: af7ec806d4b9a444ba7a39f80ad167dc, type: 3}
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
       posicionPersonajePrincipal: 0
       principalHabla: 1
-      personajeSecundario: {fileID: 6046821869682581241, guid: accb936a6dad3034caf57cd8d8c7106d, type: 3}
+      personajeSecundario: {fileID: -4034764415900404906, guid: 6445552d643fdd644ae9b9e1ab317148, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Maestra de Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Para nada cielo, estas mas que lista, despues de todo has aprendido
+        de la mejor bruja
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: -9109119884054987350, guid: 47cb072869736264684e2f454e41b9dc, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Maestra de Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "\xA1Oh! Se hace tarde, buena suerte querida"
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: -9109119884054987350, guid: 47cb072869736264684e2f454e41b9dc, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Y- Realmente se fue...
+      modoPersonajes: 1
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: -9109119884054987350, guid: 47cb072869736264684e2f454e41b9dc, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Auuullidos
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "Hola se\xF1orita, vine por el encargo de las dos"
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: -7026774836311849658, guid: 0bfc6303c68133445b2e53351536d9ee, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "\xBFQ-que? Pero la se\xF1ora no dijo nada de eso... Um lo siento pero-"
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5016831858450466051, guid: 382de72eaa1175f4d835f0e9d6232632, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: -7026774836311849658, guid: 0bfc6303c68133445b2e53351536d9ee, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Auuullidos
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "\xA1\xBFQ-que?! N-no, es importante, necesito esa pocion ni\xF1a, \xA1\xA1\xA1POR
+        FAVOR!!!"
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 3364985895592556984, guid: e5537ef9710f0ae4b8877cb3bef4ba69, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: 28142499352110981, guid: 61059f9d9d11f5047939a17dbe03cbb7, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "\xBFEh-?"
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5016831858450466051, guid: 382de72eaa1175f4d835f0e9d6232632, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: 28142499352110981, guid: 61059f9d9d11f5047939a17dbe03cbb7, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Auuullidos
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: 'Si no la tomo, me transformare en algo horrible, un hombre-, y y y,
+        yo soy un hombre lobo, no solo un hombre '
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5016831858450466051, guid: 382de72eaa1175f4d835f0e9d6232632, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: 28142499352110981, guid: 61059f9d9d11f5047939a17dbe03cbb7, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "Bueno \xA1Lo intentare por usted se\xF1or hombre lobo!"
+      modoPersonajes: 2
+      personajePrincipal: {fileID: -8166165738135017309, guid: adc3513ebb592e24d8a0395890fb6f5f, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: 28142499352110981, guid: 61059f9d9d11f5047939a17dbe03cbb7, type: 3}
       posicionPersonajeSecundario: 2
       secundarioHabla: 0
       imagenFondo: {fileID: 0}
   introNivel2:
-    nombreEscena: Escena 1
-    fondoInicial: {fileID: 0}
+    nombreEscena: Escena 2
+    fondoInicial: {fileID: 2590456727276172604, guid: 2b6a06467ae3a4645bcd1b3996fd7c18, type: 3}
     dialogos:
-    - nombrePersonaje: 707
+    - nombrePersonaje: Sabrina
       colorNombre: {r: 0, g: 0, b: 0, a: 0}
-      texto: Yujuuuu
+      texto: Lero lero candelero
       modoPersonajes: 1
-      personajePrincipal: {fileID: -5691312873769121585, guid: af7ec806d4b9a444ba7a39f80ad167dc, type: 3}
+      personajePrincipal: {fileID: 5016831858450466051, guid: 382de72eaa1175f4d835f0e9d6232632, type: 3}
       posicionPersonajePrincipal: 0
       principalHabla: 1
       personajeSecundario: {fileID: 0}
       posicionPersonajeSecundario: 0
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Buuurrito
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Uhhh~
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 3364985895592556984, guid: e5537ef9710f0ae4b8877cb3bef4ba69, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: 2223210207600094948, guid: 7b6f197dae215f54c8fac13014a16e44, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "Buenos dias se\xF1or :D"
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5016831858450466051, guid: 382de72eaa1175f4d835f0e9d6232632, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: 2223210207600094948, guid: 7b6f197dae215f54c8fac13014a16e44, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Buuurrito
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Uhhh uh uhhh
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 3364985895592556984, guid: e5537ef9710f0ae4b8877cb3bef4ba69, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: -3790165558237968476, guid: ec487da18d3d9574a8d0440f2283843e, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "Pero... \xBFPor que usted necesitaria una pocion para eso-?"
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5016831858450466051, guid: 382de72eaa1175f4d835f0e9d6232632, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: 2223210207600094948, guid: 7b6f197dae215f54c8fac13014a16e44, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Buuurrito
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "\xA1Uhhh!... Uh uhhh uh uhh-"
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 3364985895592556984, guid: e5537ef9710f0ae4b8877cb3bef4ba69, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: 745838420577897996, guid: 924b0b097e7e5b940a7323cdde10c4ba, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: . . .
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 3364985895592556984, guid: e5537ef9710f0ae4b8877cb3bef4ba69, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: 745838420577897996, guid: 924b0b097e7e5b940a7323cdde10c4ba, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "Um esta bien no hare mas preguntas \xA1Y-yo me encargo se\xF1or!"
+      modoPersonajes: 2
+      personajePrincipal: {fileID: -8166165738135017309, guid: adc3513ebb592e24d8a0395890fb6f5f, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: -3790165558237968476, guid: ec487da18d3d9574a8d0440f2283843e, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: 
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "\xBFEh? La caldera esta extra\xF1a, el agua baja y sube, si baja secara
+        los elementos :C, aun que mientras se combinen volvera a subir"
+      modoPersonajes: 0
+      personajePrincipal: {fileID: -8166165738135017309, guid: adc3513ebb592e24d8a0395890fb6f5f, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: -3790165558237968476, guid: ec487da18d3d9574a8d0440f2283843e, type: 3}
+      posicionPersonajeSecundario: 2
       secundarioHabla: 0
       imagenFondo: {fileID: 0}
   introNivel3:
-    nombreEscena: Escena 1
-    fondoInicial: {fileID: 0}
+    nombreEscena: Escena 3
+    fondoInicial: {fileID: 2590456727276172604, guid: 2b6a06467ae3a4645bcd1b3996fd7c18, type: 3}
     dialogos:
-    - nombrePersonaje: 707
+    - nombrePersonaje: Sabrina
       colorNombre: {r: 0, g: 0, b: 0, a: 0}
-      texto: Yipe yupi
+      texto: Pronto volvera la maestra... Tengo miedo
       modoPersonajes: 1
-      personajePrincipal: {fileID: -5691312873769121585, guid: af7ec806d4b9a444ba7a39f80ad167dc, type: 3}
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
       posicionPersonajePrincipal: 0
       principalHabla: 1
       personajeSecundario: {fileID: 0}
       posicionPersonajeSecundario: 0
       secundarioHabla: 0
       imagenFondo: {fileID: 0}
-  victoriaFinal:
-    nombreEscena: Escena 1
-    fondoInicial: {fileID: 0}
-    dialogos:
-    - nombrePersonaje: 707
+    - nombrePersonaje: Pumking
       colorNombre: {r: 0, g: 0, b: 0, a: 0}
-      texto: Se logro familia
-      modoPersonajes: 0
-      personajePrincipal: {fileID: 0}
+      texto: "Buen dia ni\xF1a, necesito 200 pociones para- "
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
       posicionPersonajePrincipal: 0
       principalHabla: 0
-      personajeSecundario: {fileID: 0}
-      posicionPersonajeSecundario: 0
+      personajeSecundario: {fileID: -7571594904699281773, guid: d57c5a96ad580e240b6fd79ff520ec2f, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "Perdon... \xBF\xA1Dijo 200?!"
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5016831858450466051, guid: 382de72eaa1175f4d835f0e9d6232632, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: -7571594904699281773, guid: d57c5a96ad580e240b6fd79ff520ec2f, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Pumking
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Si, 200 pociones para la corte-
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: -7571594904699281773, guid: d57c5a96ad580e240b6fd79ff520ec2f, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Imposible.
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: -6028082668497414077, guid: f8a54200cff82f84285835ea672e1c1d, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Pumking
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "\xBFEs demasiado? Bueno dame unas 10 con eso deberia ser suficiente
+        por ahora~"
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: -6028082668497414077, guid: f8a54200cff82f84285835ea672e1c1d, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "No creo que pueda se\xF1or-"
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: -6028082668497414077, guid: f8a54200cff82f84285835ea672e1c1d, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Pumking
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Pagare el doble
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 3364985895592556984, guid: e5537ef9710f0ae4b8877cb3bef4ba69, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: 3592985584759939858, guid: 9b787a6bcfd5edb489d7b334884ff2bf, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Lo hare
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5016831858450466051, guid: 382de72eaa1175f4d835f0e9d6232632, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: -7571594904699281773, guid: d57c5a96ad580e240b6fd79ff520ec2f, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: 
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "Hoy caen cosas extra\xF1as en la caldera, \xBFMala limpieza? Ewww,
+        bueno puedes deshacerte de ellas con una fusion cercana ;D"
+      modoPersonajes: 0
+      personajePrincipal: {fileID: 5016831858450466051, guid: 382de72eaa1175f4d835f0e9d6232632, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: -7571594904699281773, guid: d57c5a96ad580e240b6fd79ff520ec2f, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+  victoriaFinal:
+    nombreEscena: Victoria
+    fondoInicial: {fileID: -3552702312740951106, guid: 8039b76ce9357cb4f9d67a8d38a20bce, type: 3}
+    dialogos:
+    - nombrePersonaje: Maestra de Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Vaya~ No esperaba un recibimiento
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 3364985895592556984, guid: e5537ef9710f0ae4b8877cb3bef4ba69, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: 1515110643752042935, guid: 413ffa43a7f556e4ba7c30b5ffc26fd1, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "\xA1Maestra! \xA1Maestra! Lo logre"
+      modoPersonajes: 2
+      personajePrincipal: {fileID: -8166165738135017309, guid: adc3513ebb592e24d8a0395890fb6f5f, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: -4034764415900404906, guid: 6445552d643fdd644ae9b9e1ab317148, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Maestra de Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Sabia que podia confiar en ti cielo, bien hecho
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 3364985895592556984, guid: e5537ef9710f0ae4b8877cb3bef4ba69, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: -9109119884054987350, guid: 47cb072869736264684e2f454e41b9dc, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Maestra de Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Ahora vamos a dentro, te traje algunos regalos~
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 3364985895592556984, guid: e5537ef9710f0ae4b8877cb3bef4ba69, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: -9109119884054987350, guid: 47cb072869736264684e2f454e41b9dc, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "\xBFQue es? Una nueva escoba, tal vez el mitico grimorio"
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5016831858450466051, guid: 382de72eaa1175f4d835f0e9d6232632, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: -4034764415900404906, guid: 6445552d643fdd644ae9b9e1ab317148, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Maestra de Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: No cielo~ Una bruja de verdad necesita su propia varita
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5016831858450466051, guid: 382de72eaa1175f4d835f0e9d6232632, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: -9109119884054987350, guid: 47cb072869736264684e2f454e41b9dc, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: 
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: "Good ending: \xBFUna varita? \xBFPara miiiii? :3"
+      modoPersonajes: 0
+      personajePrincipal: {fileID: 5016831858450466051, guid: 382de72eaa1175f4d835f0e9d6232632, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: -9109119884054987350, guid: 47cb072869736264684e2f454e41b9dc, type: 3}
+      posicionPersonajeSecundario: 2
       secundarioHabla: 0
       imagenFondo: {fileID: 0}
   derrota:
-    nombreEscena: Escena 1
-    fondoInicial: {fileID: 0}
+    nombreEscena: Derrota
+    fondoInicial: {fileID: -7460575803814750012, guid: 09f970f99597b4c4c8d7f28d09f52fa3, type: 3}
     dialogos:
-    - nombrePersonaje: 707
+    - nombrePersonaje: Maestra de Sabrina
       colorNombre: {r: 0, g: 0, b: 0, a: 0}
-      texto: No se logro familia :C
-      modoPersonajes: 0
-      personajePrincipal: {fileID: 0}
+      texto: "Con que aqui estabas~ \xBFQue sucede cielo?"
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
       posicionPersonajePrincipal: 0
       principalHabla: 0
-      personajeSecundario: {fileID: 0}
-      posicionPersonajeSecundario: 0
+      personajeSecundario: {fileID: 1515110643752042935, guid: 413ffa43a7f556e4ba7c30b5ffc26fd1, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Soy una terrible aprendiz. . .
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 1
+      personajeSecundario: {fileID: -4034764415900404906, guid: 6445552d643fdd644ae9b9e1ab317148, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 0
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Maestra de Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Cielo... No te preocupes, yo falle almenos 10 veces la prueba de mi
+        propia maestra, esta es apenas tu primera vez~
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: 1515110643752042935, guid: 413ffa43a7f556e4ba7c30b5ffc26fd1, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: . . .
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: 1515110643752042935, guid: 413ffa43a7f556e4ba7c30b5ffc26fd1, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Maestra de Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Luego habra otra oportunidad
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: 1515110643752042935, guid: 413ffa43a7f556e4ba7c30b5ffc26fd1, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: Maestra de Sabrina
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: Si lo prefieres, la proxima vez te llevare con migo~
+      modoPersonajes: 2
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: 1515110643752042935, guid: 413ffa43a7f556e4ba7c30b5ffc26fd1, type: 3}
+      posicionPersonajeSecundario: 2
+      secundarioHabla: 1
+      imagenFondo: {fileID: 0}
+    - nombrePersonaje: 
+      colorNombre: {r: 0, g: 0, b: 0, a: 0}
+      texto: 'Bad ending: La proxima vez~'
+      modoPersonajes: 0
+      personajePrincipal: {fileID: 5901811912047597420, guid: c99a7bbe7c9f51943a014ccfaa8184e9, type: 3}
+      posicionPersonajePrincipal: 0
+      principalHabla: 0
+      personajeSecundario: {fileID: 1515110643752042935, guid: 413ffa43a7f556e4ba7c30b5ffc26fd1, type: 3}
+      posicionPersonajeSecundario: 2
       secundarioHabla: 0
       imagenFondo: {fileID: 0}
 --- !u!1 &1262244951
@@ -1032,8 +1382,8 @@ RectTransform:
   m_Children:
   - {fileID: 80469217}
   - {fileID: 1457705769}
-  - {fileID: 485251306}
-  - {fileID: 107509125}
+  - {fileID: 448648006}
+  - {fileID: 1871145729}
   - {fileID: 675021673}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1069,14 +1419,14 @@ RectTransform:
   m_GameObject: {fileID: 1457705768}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.9421, y: 4.9421, z: 4.9421}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 6.1300006, y: 8.781774, z: 6.1300006}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1262244955}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -603, y: 0}
+  m_AnchoredPosition: {x: -603, y: 39}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1457705770
@@ -1230,7 +1580,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -651, y: 331}
+  m_AnchoredPosition: {x: -550, y: 174}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1758210960
@@ -1318,7 +1668,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -66.14505, y: 0, z: -90.10457, w: -8.6129875}
+  m_margin: {x: -66.14505, y: 0, z: -90.10457, w: 6.363352}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1389,7 +1739,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: '
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1468,6 +1820,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1792601586}
   m_CullTransparentMesh: 1
+--- !u!1 &1871145728
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1871145729}
+  - component: {fileID: 1871145730}
+  - component: {fileID: 1871145731}
+  m_Layer: 5
+  m_Name: Der
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1871145729
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871145728}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 6.1300006, y: 8.781774, z: 6.1300006}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1262244955}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 591, y: 39}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1871145730
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871145728}
+  m_CullTransparentMesh: 1
+--- !u!114 &1871145731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871145728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
