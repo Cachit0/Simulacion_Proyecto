@@ -3,7 +3,7 @@
 public static class GameData
 {
     // Información del nivel actual
-    public static int nivelActual = 1; // 1, 2 o 3
+    public static int nivelActual = 1;
 
     // Tipo de diálogo a mostrar
     public static TipoDialogo tipoDialogo = TipoDialogo.Intro;
@@ -15,8 +15,8 @@ public static class GameData
     public static ConfiguracionNivel configuracionActual;
 
     // Rastreo de progreso de todos los niveles
-    public static bool[] nivelesCompletados = new bool[3]; // [nivel1, nivel2, nivel3]
-    public static bool[] nivelesIntentados = new bool[3];   // Para saber si ya intentó el nivel
+    public static bool[] nivelesCompletados = new bool[3];
+    public static bool[] nivelesIntentados = new bool[3];
 
     // Método para verificar si completó todos los niveles
     public static bool TodosLosNivelesCompletados()
@@ -79,17 +79,16 @@ public enum TipoDialogo
 public class ConfiguracionNivel
 {
     public int numeroNivel;
-    public string nombreEncargo; // "Pociones de Curación", "Elixires Mágicos", etc.
-    public float tiempoLimite; // En segundos
-    public ObjetivoNivel[] objetivos; // Qué debe conseguir
+    public string nombreEncargo;
+    public float tiempoLimite;
+    public ObjetivoNivel[] objetivos;
 
-    //Nuevo
     public bool limiteDinamico = false; // Si el límite baja con el tiempo
     public float velocidadDescensoLimite = 0.5f; // Unidades por segundo que baja
     public float margenInicialLimite = 0.5f; // Margen inicial
     public float margenMinimoLimite = -2f; // Hasta dónde puede bajar (negativo = dentro del contenedor)
 
-    // ⭐ NUEVAS: Mecánicas de basura nivel 3
+    //Mecánicas de basura nivel 3
     public bool tieneBasura = false;
     public float probabilidadBasura = 0.3f; // 30% de probabilidad de que aparezca basura
     public float rangoEliminacionBasura = 2f; // Distancia para eliminar basura con fusión
@@ -102,7 +101,6 @@ public class ConfiguracionNivel
         objetivos = objs;
     }
 
-    //Nuevo
     public ConfiguracionNivel(int nivel, string nombre, float tiempo, ObjetivoNivel[] objs,
                             bool limiteDin, float velDescenso, float margenInicial, float margenMinimo)
     {
@@ -116,7 +114,6 @@ public class ConfiguracionNivel
         margenMinimoLimite = margenMinimo;
     }
 
-    // ⭐ NUEVO: Constructor para nivel 3 con basura
     public ConfiguracionNivel(int nivel, string nombre, float tiempo, ObjetivoNivel[] objs,
                             bool tieneBasura, float probBasura, float rangoElim)
     {
@@ -133,7 +130,7 @@ public class ConfiguracionNivel
 [System.Serializable]
 public class ObjetivoNivel
 {
-    public int nivelBola; // Nivel de la bola que necesita (ej: nivel 5 = bola grande)
+    public int nivelBola; // Nivel de la bola que necesita
     public int cantidadRequerida; // Cuántas necesita
     public int cantidadActual; // Cuántas lleva
 

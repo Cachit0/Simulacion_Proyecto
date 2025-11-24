@@ -33,6 +33,11 @@ public class Sistema : MonoBehaviour
     [Header("Fusión")]
     public float tiempoEsperaFusion = 0.1f;
 
+    [Header("Audio")]
+    public AudioClip sonidoFusion;
+    public AudioClip sonidoSoltar;
+    private AudioSource audioSource;
+
     [Header("Game Over")]
     public float margenSuperior = -2.7f;
     public float tiempoGracia = 2f;
@@ -135,6 +140,7 @@ public class Sistema : MonoBehaviour
             CrearLineaLimiteVisual();
         }
 
+        audioSource = gameObject.AddComponent<AudioSource>();
         CrearEsferaPreview();
     }
 
@@ -258,7 +264,6 @@ public class Sistema : MonoBehaviour
         }
     }
 
-    // ⭐ MEJORADO: Función para actualizar la rotación con umbrales
     void ActualizarRotacion(Esfera esfera, float dt)
     {
         // Solo rotar si la velocidad es significativa
@@ -278,7 +283,6 @@ public class Sistema : MonoBehaviour
             esfera.velocidadAngular *= 0.9f; // Fricción más fuerte cuando está quieta
         }
 
-        // Aplicar fricción rotacional
         esfera.velocidadAngular *= friccionRotacional;
 
         // Detener completamente si la rotación es muy pequeña
@@ -287,7 +291,6 @@ public class Sistema : MonoBehaviour
             esfera.velocidadAngular = 0f;
         }
 
-        // Actualizar ángulo solo si hay rotación
         if (Mathf.Abs(esfera.velocidadAngular) > 0.01f)
         {
             esfera.anguloActual += esfera.velocidadAngular * dt;
@@ -421,6 +424,11 @@ public class Sistema : MonoBehaviour
         {
             GameManager.instance.RegistrarFusion(nivel);
         }
+
+        if (sonidoFusion != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(sonidoFusion);
+        }
     }
 
     void ColisionConContenedor(Esfera esfera)
@@ -511,7 +519,7 @@ public class Sistema : MonoBehaviour
         {
             if (haySobrepaso)
             {
-                Debug.Log("✅ Las bolas volvieron al límite");
+                Debug.Log("Las bolas volvieron al límite");
             }
             haySobrepaso = false;
             tiempoSobrepasando = 0f;
@@ -520,7 +528,7 @@ public class Sistema : MonoBehaviour
 
     void TriggerGameOver()
     {
-        Debug.Log("💀 GAME OVER - Sobrepasó el límite del contenedor");
+        Debug.Log("GAME OVER - Sobrepasó el límite del contenedor");
 
         if (GameManager.instance != null)
         {
@@ -657,6 +665,11 @@ public class Sistema : MonoBehaviour
         else
         {
             esferas.Add(esferaPreview);
+        }
+
+        if (sonidoSoltar != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(sonidoSoltar);
         }
 
         esferaPreview = null;

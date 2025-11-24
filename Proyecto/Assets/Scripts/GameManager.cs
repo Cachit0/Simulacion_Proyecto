@@ -10,9 +10,9 @@ public class GameManager : MonoBehaviour
     [Header("Referencias UI")]
     public TextMeshProUGUI textoTiempo;
     public TextMeshProUGUI textoEncargo;
-    public TextMeshProUGUI textoObjetivos; // ⭐ CAMBIADO: Un solo texto en lugar de panel
-    public GameObject panelResultado; // ⭐ NUEVO: Panel de Victoria/Derrota
-    public TextMeshProUGUI textoResultado; // ⭐ NUEVO: Texto "VICTORIA" o "DERROTA"
+    public TextMeshProUGUI textoObjetivos; //CAMBIADO: Un solo texto en lugar de panel
+    public GameObject panelResultado; //Panel de Victoria/Derrota
+    public TextMeshProUGUI textoResultado;
 
     [Header("Estado del Juego")]
     private float tiempoRestante;
@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton
         if (instance == null)
         {
             instance = this;
@@ -34,7 +33,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Ocultar panel de resultado al inicio
         if (panelResultado != null)
         {
             panelResultado.SetActive(false);
@@ -74,12 +72,10 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // Inicializar tiempo
         tiempoRestante = GameData.configuracionActual.tiempoLimite;
 
-        // Actualizar UI
         ActualizarUIEncargo();
-        ActualizarUIObjetivos(); // ⭐ SIMPLIFICADO
+        ActualizarUIObjetivos();
         ActualizarUITiempo();
 
         // Iniciar el juego después de un pequeño delay
@@ -127,11 +123,9 @@ public class GameManager : MonoBehaviour
     {
         if (textoObjetivos == null) return;
 
-        // ⭐ Asegurar tamaño de fuente correcto
         textoObjetivos.fontSize = 18;
         textoObjetivos.enableAutoSizing = false;
 
-        // Construir texto con todos los objetivos
         string textoCompleto = "Objetivos:\n";
 
         foreach (var objetivo in GameData.configuracionActual.objetivos)
@@ -180,10 +174,9 @@ public class GameManager : MonoBehaviour
         juegoTerminado = true;
         juegoActivo = false;
 
-        // ⭐ MARCAR que intentó este nivel
         GameData.nivelesIntentados[GameData.nivelActual - 1] = true;
 
-        // ⭐ GUARDAR resultado del nivel actual
+        //GUARDAR resultado del nivel actual
         if (victoria)
         {
             GameData.nivelesCompletados[GameData.nivelActual - 1] = true;
@@ -194,10 +187,8 @@ public class GameManager : MonoBehaviour
             Debug.Log($"Nivel {GameData.nivelActual} FALLADO");
         }
 
-        // ⭐ MOSTRAR resultado en pantalla (no ir a diálogos todavía)
         MostrarResultadoEnPantalla(victoria);
 
-        // ⭐ Esperar antes de decidir qué hacer
         Invoke(nameof(DecidirSiguientePaso), 3f);
     }
 
@@ -222,10 +213,9 @@ public class GameManager : MonoBehaviour
 
     void DecidirSiguientePaso()
     {
-        // ⭐ Verificar si ya intentó los 3 niveles
+        //Verificar si ya intentó los 3 niveles
         bool intentoTodos = GameData.IntentóTodosLosNiveles();
 
-        // Debug para ver el estado
         Debug.Log($"=== DECISIÓN SIGUIENTE PASO ===");
         Debug.Log($"Intentó todos: {intentoTodos}");
         Debug.Log($"Nivel 1 - Intentado: {GameData.nivelesIntentados[0]}, Completado: {GameData.nivelesCompletados[0]}");
@@ -237,7 +227,7 @@ public class GameManager : MonoBehaviour
             // Ya jugó los 3 niveles, ahora verificar resultado final
             if (GameData.TodosLosNivelesCompletados())
             {
-                // ⭐ Ganó los 3 → Victoria Final
+                //Ganó los 3 → Victoria Final
                 Debug.Log("→ IR A DIÁLOGO DE VICTORIA");
                 GameData.tipoDialogo = TipoDialogo.Victoria;
                 GameData.gano = true;
@@ -245,7 +235,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                // ⭐ Falló al menos uno → Derrota Final
+                //Falló al menos uno → Derrota Final
                 Debug.Log("→ IR A DIÁLOGO DE DERROTA");
                 GameData.tipoDialogo = TipoDialogo.Derrota;
                 GameData.gano = false;
@@ -254,7 +244,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // ⭐ Aún no ha intentado los 3 niveles → Volver a selección
+            //Aún no ha intentado los 3 niveles → Volver a selección
             Debug.Log("→ VOLVER A NIVELES (Aún faltan niveles por jugar)");
             SceneManager.LoadScene("Niveles");
         }
@@ -265,22 +255,20 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Dialogos");
     }
 
-    // ⭐ NUEVO MÉTODO: Game Over por sobrepaso
     public void GameOverPorSobrepaso()
     {
         if (juegoTerminado) return;
 
-        Debug.Log("💀 DERROTA por sobrepaso del límite");
+        Debug.Log("DERROTA por sobrepaso del límite");
         TerminarJuego(false); // Perdió
     }
 
-    // Método público para pausar/despausar (por si lo necesitas)
+    // Método público para pausar/despausar (No se implemento)
     public void PausarJuego(bool pausar)
     {
         juegoActivo = !pausar;
     }
 
-    // ⭐ NUEVO: Método público para verificar si el juego terminó
     public bool EstaJuegoTerminado()
     {
         return juegoTerminado;

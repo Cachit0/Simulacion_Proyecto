@@ -11,7 +11,7 @@ public class LineaDialogo
     [TextArea(3, 5)]
     public string texto = "Escribe aquí el diálogo...";
 
-    [Header("⚙️ Configuración de Personajes")]
+    [Header("Configuración de Personajes")]
     [Tooltip("¿Cuántos personajes aparecen en esta escena?")]
     public ModoPersonajes modoPersonajes = ModoPersonajes.UnPersonaje;
 

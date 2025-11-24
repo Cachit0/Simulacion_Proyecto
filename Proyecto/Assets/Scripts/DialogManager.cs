@@ -6,7 +6,7 @@ using System.Collections;
 
 public class DialogueManager : MonoBehaviour
 {
-    [Header("🎨 Referencias UI")]
+    [Header("Referencias UI")]
     public TextMeshProUGUI textoDialogo;
     public TextMeshProUGUI textoNombrePersonaje;
     public GameObject indicadorContinuar;
@@ -17,11 +17,11 @@ public class DialogueManager : MonoBehaviour
     public Image imagenPersonajeDerecha;
     public Image imagenFondo;
 
-    [Header("⚙️ Configuración")]
+    [Header("Configuración")]
     public bool efectoEscritura = true;
     public float velocidadEscritura = 0.05f;
 
-    [Header("📖 ESCENAS DE DIÁLOGO - Configura aquí")]
+    [Header("ESCENAS DE DIÁLOGO")]
     [Space(10)]
     public EscenaDialogo introNivel1;
     public EscenaDialogo introNivel2;
@@ -47,7 +47,7 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("❌ No hay diálogos configurados");
+            Debug.LogError("No hay diálogos configurados");
             Finalizar();
         }
     }
@@ -105,11 +105,11 @@ public class DialogueManager : MonoBehaviour
                 imagenFondo.sprite = escenaSeleccionada.fondoInicial;
             }
 
-            Debug.Log($"✓ Cargada escena: {escenaSeleccionada.nombreEscena}");
+            Debug.Log($"Cargada escena: {escenaSeleccionada.nombreEscena}");
         }
         else
         {
-            Debug.LogWarning($"⚠️ No hay escena configurada para Nivel {GameData.nivelActual}, Tipo: {GameData.tipoDialogo}");
+            Debug.LogWarning($"No hay escena configurada para Nivel {GameData.nivelActual}, Tipo: {GameData.tipoDialogo}");
         }
     }
 
@@ -119,10 +119,10 @@ public class DialogueManager : MonoBehaviour
 
         LineaDialogo lineaActual = dialogosActuales[indiceActual];
 
-        // 🔧 RESETEAR TODAS LAS POSICIONES PRIMERO
+        //Resetear posiciones
         OcultarTodasLasImagenes();
 
-        // 🔧 CONFIGURAR SEGÚN EL MODO
+        //Configurar segun modo
         switch (lineaActual.modoPersonajes)
         {
             case ModoPersonajes.SinPersonajes:
@@ -150,7 +150,6 @@ public class DialogueManager : MonoBehaviour
                 break;
         }
 
-        // Cambiar fondo si hay uno nuevo
         if (imagenFondo != null && lineaActual.imagenFondo != null)
         {
             imagenFondo.sprite = lineaActual.imagenFondo;
@@ -170,7 +169,6 @@ public class DialogueManager : MonoBehaviour
             escribiendo = false;
         }
 
-        // 🔧 MOSTRAR NOMBRE AL FINAL (como el diálogo)
         if (textoNombrePersonaje != null)
         {
             if (!string.IsNullOrEmpty(lineaActual.nombrePersonaje))
@@ -253,8 +251,6 @@ public class DialogueManager : MonoBehaviour
         if (imagenPersonajeDerecha != null)
             imagenPersonajeDerecha.gameObject.SetActive(false);
     }
-
-    //Auxiliares
 
     void MostrarPersonajeEnPosicion(Sprite sprite, PosicionPersonaje posicion, bool habla)
     {

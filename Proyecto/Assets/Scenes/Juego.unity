@@ -1567,6 +1567,8 @@ MonoBehaviour:
   umbralRotacionMinima: 5
   teclaSpawn: 323
   tiempoEsperaFusion: 0.1
+  sonidoFusion: {fileID: 8300000, guid: 88acae452eef8344ea086a3e78966a29, type: 3}
+  sonidoSoltar: {fileID: 8300000, guid: f4b981941091059468d1e2aa5ef10490, type: 3}
   margenSuperior: -2.7
   tiempoGracia: 2
   prefabBasura: {fileID: 5423220173063939741, guid: 12b8bb2ff94cd7843b2db6076ef72280, type: 3}

@@ -5,10 +5,10 @@ using TMPro;
 public class BotonNivel : MonoBehaviour
 {
     [Header("Configuración")]
-    public int numeroNivel = 1; // 1, 2 o 3
+    public int numeroNivel = 1;
 
     [Header("Visual")]
-    public GameObject iconoCandado; // Opcional: sprite de candado
+    public GameObject iconoCandado;//No se uso
     public Color colorBloqueado = new Color(0.5f, 0.5f, 0.5f, 0.7f);
     public Color colorDesbloqueado = Color.white;
 
@@ -48,23 +48,23 @@ public class BotonNivel : MonoBehaviour
         {
             if (completado)
             {
-                imagen.color = Color.green; // Verde si completó
+                imagen.color = Color.green;
             }
             else if (intentado)
             {
-                imagen.color = new Color(1f, 0.3f, 0.3f); // Rojo si falló
+                imagen.color = new Color(1f, 0.3f, 0.3f);
             }
             else if (desbloqueado)
             {
-                imagen.color = colorDesbloqueado; // Color normal
+                imagen.color = colorDesbloqueado;
             }
             else
             {
-                imagen.color = colorBloqueado; // Gris si bloqueado
+                imagen.color = colorBloqueado;
             }
         }
 
-        // Actualizar candado (si existe)
+        //Actualizar candado (si existe)
         if (iconoCandado != null)
         {
             iconoCandado.SetActive(!desbloqueado);
